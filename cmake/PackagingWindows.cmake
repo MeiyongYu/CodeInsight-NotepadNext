@@ -1,5 +1,5 @@
-file(MAKE_DIRECTORY "${PACKAGE_DIR}")
 set(PACKAGE_DIR "${CMAKE_BINARY_DIR}/package")
+file(MAKE_DIRECTORY "${PACKAGE_DIR}")
 
 # Determine configuration for multi- or single-config generators
 if(CMAKE_CONFIGURATION_TYPES) # multi-config generator (VS, Xcode)
@@ -52,12 +52,41 @@ add_custom_target(package
 	COMMAND windeployqt ${WINDEPLOYQT_ARGS}
 )
 
+# Bundled ctags and cscope (Windows x86_64 only). The binaries are copied
+# flat into the package root so that the application's own lookup (next to
+# NotepadNext.exe) finds them without any PATH configuration, mirroring the
+# deploy/macos/ctags_x64 + cscope_x64 bundles of the macOS packaging.
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	add_custom_command(TARGET package POST_BUILD
+		COMMENT "Bundling ctags and cscope (windows x86_64)"
+		VERBATIM
+
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+			"${CMAKE_SOURCE_DIR}/deploy/windows/ctags_x86_64"
+			"${PACKAGE_DIR}/"
+
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+			"${CMAKE_SOURCE_DIR}/deploy/windows/cscope_x86_64"
+			"${PACKAGE_DIR}/"
+	)
+endif()
+
 set(ZIP_FILE "${CMAKE_BINARY_DIR}/NotepadNext-v${PROJECT_VERSION}.zip")
+
+# Locate 7-Zip: normally on PATH, otherwise fall back to the default install
+# directory on Windows.
+find_program(SEVENZ_EXECUTABLE 7z
+	PATHS "C:/Program Files/7-Zip" "C:/Program Files (x86)/7-Zip"
+)
+if(NOT SEVENZ_EXECUTABLE)
+	message(FATAL_ERROR "7z.exe not found - install 7-Zip or add it to PATH to build the portable zip")
+endif()
+
 add_custom_target(zip
 	DEPENDS package
 	COMMENT "Creating zip archive of NotepadNext package"
 	VERBATIM
-	COMMAND 7z a -tzip
+	COMMAND "${SEVENZ_EXECUTABLE}" a -tzip
 		"${ZIP_FILE}"
 		"${PACKAGE_DIR}/*"
 		-x!libcrypto-1_1-x64.dll
@@ -66,8 +95,8 @@ add_custom_target(zip
 
 set(NSIS_SCRIPT "${CMAKE_SOURCE_DIR}/installer/installer.nsi")
 add_custom_target(installer
-	DEPENDS package
-	COMMENT "Building NSIS installer for NotepadNext"
+	DEPENDS package zip
+	COMMENT "Building NSIS installer for NotepadNext (portable zip is built as well)"
 	VERBATIM
 	COMMAND makensis /V4 "${NSIS_SCRIPT}"
 )
