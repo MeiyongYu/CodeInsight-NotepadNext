@@ -258,3 +258,49 @@ target_compile_definitions(NotepadNext
         APP_COPYRIGHT="${APP_COPYRIGHT}"
         APP_DISTRIBUTION="${APP_DISTRIBUTION}"
 )
+
+# The packaged build bundles ctags/cscope next to NotepadNext.exe (see
+# cmake/PackagingWindows.cmake), but a run/debug session started from the IDE
+# launches the executable in the build tree, where those neighbours used to be
+# missing. The application looks for them next to the executable first
+# (ProjectManager::cscopeExecutable()), so without this copy "Synchronize
+# files" fails with "cscope executable was not found". The Windows cscope is
+# an msys2 build as well, hence its runtime DLLs have to land there too:
+# without them Windows refuses to start cscope.exe with the system error
+# "msys-ncursesw6.dll was not found".
+if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+	set(HELPER_BUNDLE_COMMANDS "")
+	foreach(helper_dir
+		"${CMAKE_SOURCE_DIR}/deploy/windows/ctags_x86_64"
+		"${CMAKE_SOURCE_DIR}/deploy/windows/cscope_x86_64"
+	)
+		if(NOT EXISTS "${helper_dir}")
+			continue()
+		endif()
+		# CONFIGURE_DEPENDS so a newly added helper binary or runtime DLL in
+		# the deploy directory is picked up on the next build.
+		file(GLOB helper_files CONFIGURE_DEPENDS
+			"${helper_dir}/*.exe"
+			"${helper_dir}/*.dll"
+		)
+		foreach(helper_file ${helper_files})
+			list(APPEND HELPER_BUNDLE_COMMANDS
+				COMMAND ${CMAKE_COMMAND} -E copy_if_different
+					"${helper_file}"
+					"$<TARGET_FILE_DIR:NotepadNext>"
+			)
+		endforeach()
+	endforeach()
+
+	if(HELPER_BUNDLE_COMMANDS)
+		add_custom_command(TARGET NotepadNext POST_BUILD
+			COMMENT "Bundling ctags/cscope and their runtime DLLs next to the executable"
+			VERBATIM
+			${HELPER_BUNDLE_COMMANDS}
+		)
+	endif()
+
+	# cscope's terminfo database is only read by its TUI, which the
+	# application never starts, so it is deliberately not copied here; the
+	# package step still ships it for users who run cscope by hand.
+endif()
