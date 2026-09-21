@@ -10,34 +10,14 @@
  */
 
 #include "FunctionListWidget.h"
+#include "SymbolFilter.h"
+#include "SymbolIcon.h"
 
 #include <QLabel>
 #include <QLineEdit>
 #include <QTreeWidget>
 #include <QVBoxLayout>
 #include <QHeaderView>
-#include <QPainter>
-#include <QHash>
-
-namespace {
-QIcon makeKindIcon(const QColor &color, const QString &letter)
-{
-    QPixmap pm(16, 16);
-    pm.fill(Qt::transparent);
-    QPainter p(&pm);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.setPen(Qt::NoPen);
-    p.setBrush(color);
-    p.drawEllipse(2, 2, 12, 12);
-    p.setPen(Qt::white);
-    QFont f = p.font();
-    f.setBold(true);
-    f.setPixelSize(10);
-    p.setFont(f);
-    p.drawText(pm.rect(), Qt::AlignCenter, letter);
-    return QIcon(pm);
-}
-} // namespace
 
 FunctionListWidget::FunctionListWidget(QWidget *parent)
     : QWidget(parent)
@@ -50,6 +30,7 @@ FunctionListWidget::FunctionListWidget(QWidget *parent)
     titleLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     filterEdit = new QLineEdit(this);
+    filterEdit->setObjectName(QStringLiteral("functionListFilter"));
     filterEdit->setPlaceholderText(tr("Symbol Name"));
     filterEdit->setClearButtonEnabled(true);
 
@@ -120,6 +101,17 @@ int FunctionListWidget::symbolCount() const
     return symbols.size();
 }
 
+QVector<FunctionSymbol> FunctionListWidget::findSymbols(const QString &name) const
+{
+    QMutexLocker locker(&symbolsMutex);
+    QVector<FunctionSymbol> out;
+    for (const FunctionSymbol &sym : symbols) {
+        if (sym.name == name)
+            out.append(sym);
+    }
+    return out;
+}
+
 QString FunctionListWidget::currentFilterText() const
 {
     return filterEdit->text();
@@ -148,14 +140,17 @@ void FunctionListWidget::rebuildTree()
     tree->clear();
 
     const QString filter = currentFilter.trimmed();
+    // Joint search: every whitespace separated keyword must occur in the
+    // symbol name, so "rec skb" narrows the list down to recv_vlan_skb().
+    const QStringList keywords = SymbolFilter::keywords(filter);
 
     for (const FunctionSymbol &sym : symbols) {
-        if (!filter.isEmpty() && !sym.name.contains(filter, Qt::CaseInsensitive))
+        if (!SymbolFilter::matches(sym.name, keywords))
             continue;
 
         QTreeWidgetItem *item = new QTreeWidgetItem(tree);
         item->setText(0, sym.name);
-        item->setIcon(0, iconForKind(sym.kind));
+        item->setIcon(0, SymbolIcon::icon(sym.kind));
         item->setData(0, Qt::UserRole, sym.line);
         item->setToolTip(0, QStringLiteral("%1  [line %2]").arg(sym.kind, QString::number(sym.line)));
     }
@@ -170,42 +165,10 @@ void FunctionListWidget::rebuildTree()
 
     if (busy)
         statusLabel->setText(tr("Analyzing..."));
-    else if (!filter.isEmpty())
+    else if (!keywords.isEmpty())
         statusLabel->setText(tr("No symbol matches \"%1\"").arg(filter));
     else
         statusLabel->setText(tr("No symbols found"));
 
     statusLabel->setVisible(true);
-}
-
-QIcon FunctionListWidget::iconForKind(const QString &kind)
-{
-    if (!kindIconsReady) {
-        buildIconCache();
-        kindIconsReady = true;
-    }
-
-    const auto it = kindIcons.constFind(kind);
-    if (it != kindIcons.constEnd())
-        return it.value();
-
-    return makeKindIcon(QColor(0x6b7280), kind.isEmpty() ? QStringLiteral("?") : kind.left(1));
-}
-
-// Simple color coding similar to common function list panels
-void FunctionListWidget::buildIconCache()
-{
-    kindIcons.insert(QStringLiteral("f"), makeKindIcon(QColor(0x2e9e4f), QStringLiteral("f"))); // function
-    kindIcons.insert(QStringLiteral("p"), makeKindIcon(QColor(0x88b04b), QStringLiteral("p"))); // prototype/port
-    kindIcons.insert(QStringLiteral("m"), makeKindIcon(QColor(0x1d7f9f), QStringLiteral("m"))); // member/module
-    kindIcons.insert(QStringLiteral("v"), makeKindIcon(QColor(0xd97706), QStringLiteral("v"))); // variable
-    kindIcons.insert(QStringLiteral("g"), makeKindIcon(QColor(0xd97706), QStringLiteral("g"))); // global var
-    kindIcons.insert(QStringLiteral("e"), makeKindIcon(QColor(0xd97706), QStringLiteral("e"))); // enumerator
-    kindIcons.insert(QStringLiteral("d"), makeKindIcon(QColor(0xc2419a), QStringLiteral("d"))); // macro
-    kindIcons.insert(QStringLiteral("c"), makeKindIcon(QColor(0x2456c7), QStringLiteral("c"))); // class
-    kindIcons.insert(QStringLiteral("s"), makeKindIcon(QColor(0x2456c7), QStringLiteral("s"))); // struct
-    kindIcons.insert(QStringLiteral("u"), makeKindIcon(QColor(0x2456c7), QStringLiteral("u"))); // union
-    kindIcons.insert(QStringLiteral("t"), makeKindIcon(QColor(0x7c3aed), QStringLiteral("t"))); // typedef
-    kindIcons.insert(QStringLiteral("n"), makeKindIcon(QColor(0x0f766e), QStringLiteral("n"))); // namespace
-    kindIcons.insert(QStringLiteral("M"), makeKindIcon(QColor(0x0f766e), QStringLiteral("M"))); // lua module
 }

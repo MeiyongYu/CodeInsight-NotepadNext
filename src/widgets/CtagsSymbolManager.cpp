@@ -182,6 +182,9 @@ bool probeCtags(const QString &executable)
     QProcess probe;
     probe.setProgram(executable);
     probe.setArguments(QStringList() << QStringLiteral("--version"));
+    // ctags never reads stdin: hand it the null device so Qt does not open an
+    // anonymous pipe for it (those pipes can run out on Windows under load).
+    probe.setStandardInputFile(QProcess::nullDevice());
     probe.start();
 
     if (!probe.waitForStarted(3000))
@@ -334,6 +337,10 @@ void CtagsWorker::startProcess(int generation, const QString &filePath, const QS
 
         process = new QProcess(this);
         process->setWorkingDirectory(QFileInfo(filePath).absolutePath());
+        // ctags writes its tags to stdout and never reads stdin; the null device
+        // keeps Qt from opening an unnecessary stdin pipe on every function-list
+        // run, which is what exhausts pipe handles on Windows under load.
+        process->setStandardInputFile(QProcess::nullDevice());
 
         connect(process, &QProcess::readyReadStandardOutput,
                 this, &CtagsWorker::onReadyReadStandardOutput);
@@ -717,6 +724,9 @@ QStringList CtagsSymbolManager::knownLanguages()
     QProcess probe;
     probe.setProgram(executable);
     probe.setArguments(QStringList() << QStringLiteral("--list-languages"));
+    // Same null-device treatment as the other ctags probes: it never reads
+    // stdin, and skipping Qt's stdin pipe avoids exhausting pipe handles.
+    probe.setStandardInputFile(QProcess::nullDevice());
     probe.start();
 
     if (probe.waitForStarted(3000) && probe.waitForFinished(10000)) {
@@ -809,6 +819,9 @@ QSet<QString> CtagsSymbolManager::knownFilePatterns()
     QProcess probe;
     probe.setProgram(executable);
     probe.setArguments(QStringList() << QStringLiteral("--list-maps"));
+    // Same null-device treatment as the other ctags probes: it never reads
+    // stdin, and skipping Qt's stdin pipe avoids exhausting pipe handles.
+    probe.setStandardInputFile(QProcess::nullDevice());
     probe.start();
 
     if (probe.waitForStarted(3000) && probe.waitForFinished(10000)) {

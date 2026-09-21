@@ -1900,7 +1900,53 @@
       <source>No updates are available at this time.</source>
       <translation>目前沒有可用的更新。</translation>
     </message>
-  </context>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2464"/>
+      <source>Project</source>
+      <translation>專案</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2467"/>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2607"/>
+      <source>Current Project:</source>
+      <translation>目前專案：</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2471"/>
+      <source>New Project...</source>
+      <translation>新增專案...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2475"/>
+      <source>Open Project...</source>
+      <translation>開啟專案...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2479"/>
+      <source>Close Project</source>
+      <translation>關閉專案</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2483"/>
+      <source>Remove Project...</source>
+      <translation>移除專案...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2489"/>
+      <source>Add and Remove Project Files...</source>
+      <translation>新增或移除專案檔案...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2493"/>
+      <source>Synchronize Files...</source>
+      <translation>同步檔案...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2607"/>
+      <source>Current Project:  %1</source>
+      <translation>目前專案：%1</translation>
+    </message>
+</context>
   <context>
     <name>PreferencesDialog</name>
     <message>

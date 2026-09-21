@@ -2044,7 +2044,53 @@
       <source>No updates are available at this time.</source>
       <translation>本次无可用更新。</translation>
     </message>
-  </context>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2464"/>
+      <source>Project</source>
+      <translation>工程</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2467"/>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2607"/>
+      <source>Current Project:</source>
+      <translation>当前工程：</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2471"/>
+      <source>New Project...</source>
+      <translation>新建工程...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2475"/>
+      <source>Open Project...</source>
+      <translation>打开工程...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2479"/>
+      <source>Close Project</source>
+      <translation>关闭工程</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2483"/>
+      <source>Remove Project...</source>
+      <translation>移除工程...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2489"/>
+      <source>Add and Remove Project Files...</source>
+      <translation>添加/移除工程文件...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2493"/>
+      <source>Synchronize Files...</source>
+      <translation>同步文件...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2607"/>
+      <source>Current Project:  %1</source>
+      <translation>当前工程：%1</translation>
+    </message>
+</context>
   <context>
     <name>PreferencesDialog</name>
     <message>

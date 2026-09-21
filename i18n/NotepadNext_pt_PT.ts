@@ -1911,7 +1911,53 @@
       <source>No updates are available at this time.</source>
       <translation>De momento, não há atualizações disponíveis.</translation>
     </message>
-  </context>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2464"/>
+      <source>Project</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2467"/>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2607"/>
+      <source>Current Project:</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2471"/>
+      <source>New Project...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2475"/>
+      <source>Open Project...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2479"/>
+      <source>Close Project</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2483"/>
+      <source>Remove Project...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2489"/>
+      <source>Add and Remove Project Files...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2493"/>
+      <source>Synchronize Files...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/MainWindow.cpp" line="2607"/>
+      <source>Current Project:  %1</source>
+      <translation type="unfinished"></translation>
+    </message>
+</context>
   <context>
     <name>PreferencesDialog</name>
     <message>

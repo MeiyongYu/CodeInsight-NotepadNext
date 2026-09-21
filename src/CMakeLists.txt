@@ -28,6 +28,10 @@ qt_add_executable(NotepadNext
 	MacroListModel.h
 	MacroManager.h
 	MacroRecorder.h
+	ProjectManager.h
+	ProjectManager.cpp
+	SymbolJumpFilter.h
+	SymbolJumpFilter.cpp
 	MacroStep.h
 	MacroStepTableModel.h
 	NotepadNextApplication.h
@@ -140,6 +144,16 @@ qt_add_executable(NotepadNext
 	dialogs/MacroSaveDialog.cpp
 	dialogs/MacroSaveDialog.h
 	dialogs/MacroSaveDialog.ui
+	dialogs/NewProjectDialog.cpp
+	dialogs/NewProjectDialog.h
+	dialogs/ProjectFilesDialog.cpp
+	dialogs/ProjectFilesDialog.h
+	dialogs/ProjectListDialog.cpp
+	dialogs/ProjectListDialog.h
+	dialogs/ProjectSyncProgressDialog.cpp
+	dialogs/ProjectSyncProgressDialog.h
+	dialogs/SynchronizeFilesDialog.cpp
+	dialogs/SynchronizeFilesDialog.h
 	dialogs/MainWindow.cpp
 	dialogs/MainWindow.h
 	dialogs/MainWindow.ui
@@ -167,6 +181,8 @@ qt_add_executable(NotepadNext
 	docks/LuaConsoleDock.cpp
 	docks/LuaConsoleDock.h
 	docks/LuaConsoleDock.ui
+	docks/ProjectPanelDock.cpp
+	docks/ProjectPanelDock.h
 	docks/SearchResultsDock.cpp
 	docks/SearchResultsDock.h
 	docks/SearchResultsDock.ui
@@ -179,6 +195,11 @@ qt_add_executable(NotepadNext
 	widgets/QuickFindWidget.ui
 	widgets/FunctionListWidget.cpp
 	widgets/FunctionListWidget.h
+	widgets/SymbolIcon.cpp
+	widgets/SymbolIcon.h
+	widgets/SymbolTreeModel.cpp
+	widgets/SymbolTreeModel.h
+	widgets/SymbolFilter.h
 	widgets/CtagsSymbolManager.cpp
 	widgets/CtagsSymbolManager.h
 	widgets/EditorPane.cpp
