@@ -1,6 +1,6 @@
 /*
  * This file is part of Notepad Next.
- * Copyright 2022 Justin Dailey
+ * Copyright 2026 Justin Dailey
  *
  * Notepad Next is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,27 +17,20 @@
  */
 
 
-#ifndef AUTOCOMPLETION_H
-#define AUTOCOMPLETION_H
+#ifndef CHANGEHISTORYDECORATOR_H
+#define CHANGEHISTORYDECORATOR_H
 
 #include "EditorDecorator.h"
 
-#include <QStringList>
-
-
-class AutoCompletion : public EditorDecorator
+class ChangeHistoryDecorator : public EditorDecorator
 {
     Q_OBJECT
 
-public:	
-    explicit AutoCompletion(ScintillaNext *editor);
+public:
+    explicit ChangeHistoryDecorator(ScintillaNext *editor);
 
 public slots:
     void notify(const Scintilla::NotificationData *pscn) override;
-    void showAutoCompletion();
-
-private:
-    QStringList keywords;
 };
 
-#endif // AUTOCOMPLETION_H
+#endif // CHANGEHISTORYDECORATOR_H

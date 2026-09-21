@@ -26,7 +26,12 @@
 class ISearchResultsHandler {
 public:
     virtual void newSearch(const QString searchTerm) = 0;
-    virtual void newFileEntry(ScintillaNext *editor) = 0;
+    // Opens a new hit group. editor is the buffer the hits were found in; it may
+    // be null when the file is not open in an editor at all (a project wide
+    // search reads most files straight from disk). filePath then names that file
+    // so the handler can open it when one of the hits is activated; an empty
+    // filePath means "the editor's own file".
+    virtual void newFileEntry(ScintillaNext *editor, const QString &filePath = QString()) = 0;
     virtual void newResultsEntry(const QString line, int lineNumber, int startPositionFromBeginning, int endPositionFromBeginning, int hitCount=1) = 0;
     virtual void completeSearch() = 0;
 };

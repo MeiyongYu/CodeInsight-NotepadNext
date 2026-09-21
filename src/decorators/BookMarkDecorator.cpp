@@ -20,7 +20,8 @@
 #include "BookMarkDecorator.h"
 #include "UndoAction.h"
 
-const int MARK_BOOKMARK = 24;
+// Marker number 24 is reserved by Scintilla for the change history
+const int MARK_BOOKMARK = 17;
 const int MARGIN = 1;
 
 BookMarkDecorator::BookMarkDecorator(ScintillaNext *editor) :

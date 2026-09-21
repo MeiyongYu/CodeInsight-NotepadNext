@@ -286,6 +286,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="buttonReplaceAllInProject">
+         <property name="text">
+          <string>Replace All in &amp;Project Files</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="buttonFindAllInDocuments">
          <property name="text">
           <string>Find All in All &amp;Opened Documents</string>
@@ -299,6 +309,16 @@
         <widget class="QPushButton" name="buttonFindAllInCurrent">
          <property name="text">
           <string>Find All in Current Document</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonFindAllInProject">
+         <property name="text">
+          <string>Find All in &amp;Project Files</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -517,6 +537,16 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxMatchSymbols">
+           <property name="toolTip">
+            <string>Only count a hit when the complete symbol name around it, extracted with the language rules of the document, is exactly the search term</string>
+           </property>
+           <property name="text">
+            <string>Match &amp;symbol</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
@@ -532,13 +562,16 @@
   <tabstop>radioExtendedSearch</tabstop>
   <tabstop>radioRegexSearch</tabstop>
   <tabstop>checkBoxRegexMatchesNewline</tabstop>
+  <tabstop>checkBoxMatchSymbols</tabstop>
   <tabstop>buttonFind</tabstop>
   <tabstop>buttonCount</tabstop>
   <tabstop>buttonReplace</tabstop>
   <tabstop>buttonReplaceAll</tabstop>
   <tabstop>buttonReplaceAllInDocuments</tabstop>
+  <tabstop>buttonReplaceAllInProject</tabstop>
   <tabstop>buttonFindAllInDocuments</tabstop>
   <tabstop>buttonFindAllInCurrent</tabstop>
+  <tabstop>buttonFindAllInProject</tabstop>
   <tabstop>buttonMarkAll</tabstop>
   <tabstop>buttonClearAllMarks</tabstop>
   <tabstop>buttonCopyMarkedText</tabstop>

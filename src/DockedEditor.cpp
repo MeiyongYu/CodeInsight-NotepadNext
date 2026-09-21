@@ -102,11 +102,19 @@ ads::CDockWidget *DockedEditor::dockWidgetForEditor(const ScintillaNext *editor)
     if (editor == Q_NULLPTR)
         return Q_NULLPTR;
 
-    QWidget *w = const_cast<ScintillaNext *>(editor)->parentWidget();
-    // The editor may be wrapped inside an EditorPane (function list splitter)
-    if (qobject_cast<EditorPane *>(w) != Q_NULLPTR)
-        w = w->parentWidget();
-    return qobject_cast<ads::CDockWidget *>(w);
+    // Walk up the whole parent chain until the enclosing dock widget shows up.
+    // A fixed number of steps does not work: the editor sits inside an
+    // EditorPane (function list splitter), which is placed in a plain
+    // container widget inside the CDockWidget's QScrollArea, so the parent of
+    // the EditorPane is NOT the dock widget. Returning null here silently
+    // disabled switchToEditor(), which is why jumping back to an already open
+    // file appeared to do nothing.
+    for (QWidget *w = const_cast<ScintillaNext *>(editor)->parentWidget(); w != Q_NULLPTR; w = w->parentWidget()) {
+        if (ads::CDockWidget *dockWidget = qobject_cast<ads::CDockWidget *>(w))
+            return dockWidget;
+    }
+
+    return Q_NULLPTR;
 }
 
 

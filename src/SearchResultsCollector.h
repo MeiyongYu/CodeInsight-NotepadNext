@@ -29,7 +29,7 @@ public:
     virtual ~SearchResultsCollector() {}
 
     void newSearch(const QString searchTerm) override;
-    void newFileEntry(ScintillaNext *editor) override;
+    void newFileEntry(ScintillaNext *editor, const QString &filePath = QString()) override;
     void newResultsEntry(const QString line, int lineNumber, int startPositionFromBeginning, int endPositionFromBeginning, int hitCount=1) override;
     void completeSearch() override;
 

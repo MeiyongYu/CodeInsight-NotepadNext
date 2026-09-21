@@ -761,6 +761,32 @@ void ScintillaNext::detachFileInfo(const QString &newName)
     bufferType = ScintillaNext::New;
 }
 
+bool ScintillaNext::loadFromFile(const QString &filePath)
+{
+    QFile file(filePath);
+
+    if (!file.exists()) {
+        qWarning("Cannot read \"%s\": doesn't exist", qUtf8Printable(filePath));
+        return false;
+    }
+
+    // Start from scratch: readFromDisk() appends to whatever is in the buffer,
+    // and a previously loaded file may have left it read-only.
+    clearAll();
+    setReadOnly(false);
+
+    if (!readFromDisk(file))
+        return false;
+
+    setFileInfo(filePath);
+
+    // The buffer is now a different file; letting undo step back into the one
+    // that was loaded before would be nonsense.
+    emptyUndoBuffer();
+
+    return true;
+}
+
 void ScintillaNext::setTemporary(bool temp)
 {
     temporary = temp;

@@ -29,7 +29,7 @@ void SearchResultsCollector::newSearch(const QString searchTerm)
     child->newSearch(searchTerm);
 }
 
-void SearchResultsCollector::newFileEntry(ScintillaNext *editor)
+void SearchResultsCollector::newFileEntry(ScintillaNext *editor, const QString &filePath)
 {
     // There may be a result that was not passed along yet
     if (runningHitCount > 0) {
@@ -37,7 +37,7 @@ void SearchResultsCollector::newFileEntry(ScintillaNext *editor)
     }
     runningHitCount = 0;
 
-    child->newFileEntry(editor);
+    child->newFileEntry(editor, filePath);
 }
 
 void SearchResultsCollector::newResultsEntry(const QString line, int lineNumber, int startPositionFromBeginning, int endPositionFromBeginning, int hitCount)

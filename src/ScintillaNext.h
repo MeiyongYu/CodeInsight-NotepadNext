@@ -97,6 +97,14 @@ public:
 
     void detachFileInfo(const QString &newName);
 
+    // Replaces everything this editor holds with the contents of filePath and
+    // makes it "the editor opened on that file" (name, timestamp, read-only
+    // flag). Returns false when the file cannot be read, in which case the
+    // buffer is left empty. fromFile() builds a fresh editor around this, but a
+    // caller that has to look at many files in a row can also reuse one editor
+    // instead of paying for one per file (the project wide search does).
+    bool loadFromFile(const QString &filePath);
+
     enum FileStateChange {
         NoChange,
         Modified,
@@ -171,6 +179,8 @@ private:
 
     bool temporary = false; // Temporary file loaded from a session. It can either be a 'New' file or actual 'File'
 
+    // Appends the contents of an already open file to the buffer; callers that
+    // want a replacement rather than an append use loadFromFile().
     bool readFromDisk(QFile &file);
     QDateTime fileTimestamp();
     void updateTimestamp();

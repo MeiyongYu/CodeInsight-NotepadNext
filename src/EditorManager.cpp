@@ -35,12 +35,14 @@
 #include "AutoCompletion.h"
 #include "URLFinder.h"
 #include "BookMarkDecorator.h"
+#include "ChangeHistoryDecorator.h"
 #include "HTMLAutoCompleteDecorator.h"
 
 
-const int MARK_HIDELINESBEGIN = 23;
-const int MARK_HIDELINESEND = 22;
-const int MARK_HIDELINESUNDERLINE = 21;
+// Marker numbers 21-24 are reserved by Scintilla for the change history
+const int MARK_HIDELINESBEGIN = 20;
+const int MARK_HIDELINESEND = 19;
+const int MARK_HIDELINESUNDERLINE = 18;
 
 
 EditorManager::EditorManager(ApplicationSettings *settings, QObject *parent)
@@ -413,6 +415,9 @@ void EditorManager::setupEditor(ScintillaNext *editor)
 
     BookMarkDecorator *bm = new BookMarkDecorator(editor);
     bm->setEnabled(true);
+
+    ChangeHistoryDecorator *ch = new ChangeHistoryDecorator(editor);
+    ch->setEnabled(true);
 
     new HTMLAutoCompleteDecorator(editor);
 }

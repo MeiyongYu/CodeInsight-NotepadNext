@@ -393,6 +393,43 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/dialogs/FindReplaceDialog.ui" line="291"/>
+        <source>Replace All in &amp;Project Files</source>
+        <translation>Replace All in &amp;Project Files</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/FindReplaceDialog.ui" line="321"/>
+        <source>Find All in &amp;Project Files</source>
+        <translation>Find All in &amp;Project Files</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/FindReplaceDialog.cpp" line="725"/>
+        <source>Replace in all files of the current project</source>
+        <translation>Replace in all files of the current project</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/FindReplaceDialog.cpp" line="720"/>
+        <source>Search all files of the current project</source>
+        <translation>Search all files of the current project</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/FindReplaceDialog.cpp" line="721"/>
+        <location filename="../src/dialogs/FindReplaceDialog.cpp" line="726"/>
+        <source>No project is open</source>
+        <translation>No project is open</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/FindReplaceDialog.cpp" line="562"/>
+        <source>Replacing project files</source>
+        <translation>Replacing project files</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/FindReplaceDialog.cpp" line="545"/>
+        <location filename="../src/dialogs/FindReplaceDialog.cpp" line="646"/>
+        <source>The project does not contain any files.</source>
+        <translation>The project does not contain any files.</translation>
+    </message>
+    <message>
         <location filename="../src/dialogs/FindReplaceDialog.ui" line="301"/>
         <source>Find All in Current Document</source>
         <translation type="unfinished"></translation>
@@ -1912,6 +1949,55 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+  <context>
+    <name>ProjectMainWindow</name>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2464"/>
+      <source>Project</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2467"/>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2607"/>
+      <source>Current Project:</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2471"/>
+      <source>New Project...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2475"/>
+      <source>Open Project...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2479"/>
+      <source>Close Project</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2483"/>
+      <source>Remove Project...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2489"/>
+      <source>Add and Remove Project Files...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2493"/>
+      <source>Synchronize Files...</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2607"/>
+      <source>Current Project:  %1</source>
+      <translation type="unfinished"></translation>
+    </message>
+  </context>
 <context>
     <name>PreferencesDialog</name>
     <message>

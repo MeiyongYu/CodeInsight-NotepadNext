@@ -45,7 +45,8 @@ class ShiftWheelToHorizontalScrollFilter;
 class Converter;
 class DefaultDirectoryManager;
 class TabsQuickActionsBar;
-class CtagsSymbolManager;
+class ProjectManager;
+class ProjectMainWindow;
 
 class MainWindow : public QMainWindow
 {
@@ -62,6 +63,9 @@ public:
     int editorCount() const;
     QVector<ScintillaNext *> editors() const;
     DockedEditor *getDockedEditor() const { return dockedEditor; }
+    // The project manager, for UI that has to follow the project lifecycle
+    // (the find dialog greys out "Find All in Project Files" while no project is open).
+    ProjectManager *getProjectManager() const;
 
 public slots:
     void newFile();
@@ -126,17 +130,6 @@ public slots:
 
     void addEditor(ScintillaNext *editor);
 
-    void setupFunctionList(ScintillaNext *editor);
-    // Click on a symbol in the function list: switch to the editor and place the
-    // target line in the upper-middle area of the view
-    void jumpFunctionList(ScintillaNext *editor, int lineNumber);
-    // Single entry point of the function list: decides whether the panel belongs
-    // on screen and makes sure a background parse is on its way when it does.
-    void updateFunctionList(ScintillaNext *editor);
-    // updateFunctionList() plus a dropped ctags result, for changed files
-    void reparseFunctionList(ScintillaNext *editor);
-    static QString ctagsLanguageFor(const QString &languageName);
-
     void checkForUpdates(bool silent = false);
 
     void restoreWindowState();
@@ -164,8 +157,13 @@ private:
     NotepadNextApplication *app = Q_NULLPTR;
     DockedEditor *dockedEditor = Q_NULLPTR;
 
-    CtagsSymbolManager *ctagsManager = Q_NULLPTR;
-    QAction *functionListAction = Q_NULLPTR;
+    // The codeinsight project feature (project menu/panel, function list,
+    // symbol jump, jump history, self check) lives in ProjectMainWindow so
+    // this file stays close to upstream: MainWindow only forwards the few
+    // entry points other modules need. It reaches the private members below
+    // through the friend declaration.
+    ProjectMainWindow *projectFeature = Q_NULLPTR;
+    friend class ProjectMainWindow;
 
     QScopedPointer<SearchResultsCollector> searchResults;
 
@@ -217,6 +215,10 @@ private:
     ShiftWheelToHorizontalScrollFilter *shiftWheelToHorizontalScrollFilter;
     int zoomLevel = 0;
     int contextMenuPos = 0;
+    // The height the search results dock had when the last session was
+    // saved. It is applied once, when the dock is shown again, as a state
+    // restore does not carry the height reliably.
+    int pendingSearchResultsHeight = 0;
     QMenu *buildMenu(QStringList actionNames);
 };
 

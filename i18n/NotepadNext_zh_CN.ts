@@ -399,6 +399,36 @@
     </message>
     <message>
       <location filename="../src/dialogs/FindReplaceDialog.ui" line="311"/>
+      <source>Find All in &amp;Project Files</source>
+      <translation>查找工程中所有文件(&amp;P)</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/FindReplaceDialog.ui" line="291"/>
+      <source>Replace All in &amp;Project Files</source>
+      <translation>替换工程中所有文件(&amp;P)</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/FindReplaceDialog.cpp" line="725"/>
+      <source>Replace in all files of the current project</source>
+      <translation>替换当前工程的所有文件</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/FindReplaceDialog.cpp" line="562"/>
+      <source>Replacing project files</source>
+      <translation>正在替换工程文件</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/FindReplaceDialog.ui" line="546"/>
+      <source>Match &amp;symbol</source>
+      <translation>匹配符号(&amp;S)</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/FindReplaceDialog.ui" line="543"/>
+      <source>Only count a hit when the complete symbol name around it, extracted with the language rules of the document, is exactly the search term</source>
+      <translation>仅当命中处的完整符号名（按文档的语言规则提取）与查找词完全一致时才算匹配</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/FindReplaceDialog.ui" line="311"/>
       <source>Mark All</source>
       <translation type="unfinished"/>
     </message>
@@ -521,6 +551,36 @@
       <location filename="../src/dialogs/FindReplaceDialog.cpp" line="818"/>
       <source>Copied %Ln marked text(s)</source>
       <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Searching project</source>
+      <translation>正在搜索工程</translation>
+    </message>
+    <message>
+      <source>The project does not contain any files.</source>
+      <translation>工程中没有任何文件。</translation>
+    </message>
+    <message>
+      <source>Search cancelled.</source>
+      <translation>搜索已取消。</translation>
+    </message>
+    <message>
+      <source>Search all files of the current project</source>
+      <translation>搜索当前工程的所有文件</translation>
+    </message>
+    <message>
+      <source>No project is open</source>
+      <translation>当前没有打开工程</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/SmartFindReplaceDialog.cpp" line="798"/>
+      <source>Smart Rename</source>
+      <translation>智能替换</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/SmartFindReplaceDialog.cpp" line="861"/>
+      <source>Smart Rename...</source>
+      <translation>智能替换...</translation>
     </message>
   </context>
   <context>
@@ -1900,6 +1960,55 @@
       <source>No updates are available at this time.</source>
       <translation>本次无可用更新。</translation>
     </message>
+</context>
+  <context>
+    <name>ProjectMainWindow</name>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2464"/>
+      <source>Project</source>
+      <translation>工程</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2467"/>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2607"/>
+      <source>Current Project:</source>
+      <translation>当前工程：</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2471"/>
+      <source>New Project...</source>
+      <translation>新建工程...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2475"/>
+      <source>Open Project...</source>
+      <translation>打开工程...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2479"/>
+      <source>Close Project</source>
+      <translation>关闭工程</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2483"/>
+      <source>Remove Project...</source>
+      <translation>移除工程...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2489"/>
+      <source>Add and Remove Project Files...</source>
+      <translation>添加/移除工程文件...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2493"/>
+      <source>Synchronize Files...</source>
+      <translation>同步文件...</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/ProjectMainWindow.cpp" line="2607"/>
+      <source>Current Project:  %1</source>
+      <translation>当前工程：%1</translation>
+    </message>
   </context>
   <context>
     <name>PreferencesDialog</name>
@@ -2150,6 +2259,11 @@
       <location filename="../src/docks/SearchResultsDock.cpp" line="64"/>
       <source>Delete All</source>
       <translation>删除所有</translation>
+    </message>
+    <message>
+      <location filename="../src/docks/SearchResultsDock.cpp" line="47"/>
+      <source>Relation Panel</source>
+      <translation>关联面板</translation>
     </message>
   </context>
   <context>

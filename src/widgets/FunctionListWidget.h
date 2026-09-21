@@ -15,7 +15,6 @@
 
 #include <QWidget>
 #include <QVector>
-#include <QHash>
 #include <QIcon>
 #include <QMutex>
 
@@ -57,6 +56,10 @@ public:
     // Number of symbols currently held (unfiltered)
     int symbolCount() const;
 
+    // All symbols whose name matches exactly (used by Ctrl+Click navigation).
+    // Thread safe: guarded by the same mutex as setSymbols().
+    QVector<FunctionSymbol> findSymbols(const QString &name) const;
+
     QString currentFilterText() const;
 
 signals:
@@ -69,20 +72,11 @@ private slots:
 
 private:
     void rebuildTree();
-    QIcon iconForKind(const QString &kind);
-    void buildIconCache();
 
     QLabel *titleLabel = nullptr;
     QLineEdit *filterEdit = nullptr;
     QLabel *statusLabel = nullptr; // "analyzing" / "no symbols" hint under the filter box
     QTreeWidget *tree = nullptr;
-
-    // Kind icons live in the widget instead of a function local static: static
-    // QIcon/QPixmap objects are destroyed after QGuiApplication, which is a
-    // known crash source on macOS and Linux, and the cache is also guaranteed
-    // to be built on the GUI thread.
-    QHash<QString, QIcon> kindIcons;
-    bool kindIconsReady = false;
 
     mutable QMutex symbolsMutex; // guards symbols/currentFilter/busy (thread-safe refresh requirement)
     QVector<FunctionSymbol> symbols;

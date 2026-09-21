@@ -19,6 +19,7 @@
 
 #include "FindReplaceDialog.h"
 #include "ApplicationSettings.h"
+#include "SmartFindReplaceDialog.h"
 #include "ui_FindReplaceDialog.h"
 
 #include <QStatusBar>
@@ -26,6 +27,7 @@
 #include <QShortcut>
 #include <QClipboard>
 #include <QGuiApplication>
+#include <QCoreApplication>
 #include <QScreen>
 
 #include "ScintillaNext.h"
@@ -33,7 +35,7 @@
 #include "BookMarkDecorator.h"
 
 
-static void convertToExtended(QString &str)
+void FindReplaceDialog::convertToExtended(QString &str)
 {
     str.replace("\\r", "\r");
     str.replace("\\n", "\n");
@@ -54,6 +56,11 @@ FindReplaceDialog::FindReplaceDialog(ISearchResultsHandler *searchResults, MainW
     // Turn off the help button on the dialog
     setWindowFlag(Qt::WindowContextHelpButtonHint, false);
     ui->setupUi(this);
+
+    // The project aware half of this dialog: searching and replacing across the
+    // files of the current project, and the "Match symbol" rule. It does
+    // its work on the widgets and the finder of this dialog.
+    smart = new SmartFindReplaceDialog(this);
 
     // Get the current editor, and keep up the reference
     setEditor(window->currentEditor());
@@ -126,28 +133,6 @@ FindReplaceDialog::FindReplaceDialog(ISearchResultsHandler *searchResults, MainW
     });
     connect(ui->buttonReplace, &QPushButton::clicked, this, &FindReplaceDialog::replace);
     connect(ui->buttonReplaceAll, &QPushButton::clicked, this, &FindReplaceDialog::replaceAll);
-    connect(ui->buttonReplaceAllInDocuments, &QPushButton::clicked, this, [=, this]() {
-        prepareToPerformSearch(true);
-
-        QString replaceText = replaceString();
-
-        if (ui->radioExtendedSearch->isChecked()) {
-            convertToExtended(replaceText);
-        }
-
-        int count = 0;
-        ScintillaNext *current_editor = editor;
-        MainWindow *window = qobject_cast<MainWindow *>(parent());
-
-        for(ScintillaNext *editor : window->editors()) {
-            setEditor(editor);
-            count += finder->replaceAll(replaceText);
-        }
-
-        setEditor(current_editor);
-
-        showMessage(tr("Replaced %Ln matches", "", count), "green");
-    });
     connect(ui->buttonClose, &QPushButton::clicked, this, &FindReplaceDialog::close);
     connect(ui->buttonMarkAll, &QPushButton::clicked, this, &FindReplaceDialog::markAll);
     connect(ui->buttonClearAllMarks, &QPushButton::clicked, this, &FindReplaceDialog::clearAllMarks);
@@ -164,6 +149,11 @@ FindReplaceDialog::FindReplaceDialog(ISearchResultsHandler *searchResults, MainW
     new QShortcut(QKeySequence(Qt::SHIFT | Qt::Key_Return), this, this, findPrevious, Qt::WidgetWithChildrenShortcut);
     new QShortcut(QKeySequence(Qt::SHIFT | Qt::Key_Enter), this, this, findPrevious, Qt::WidgetWithChildrenShortcut);
 
+    // The project buttons ("Find All in Project Files", "Replace All in Project
+    // Files"), the filter aware "Replace All in All Opened Documents" and the
+    // project lifecycle signals are all wired up by the smart half.
+    smart->install();
+
     loadSettings();
 
     changeTab(tabBar->currentIndex());
@@ -171,6 +161,14 @@ FindReplaceDialog::FindReplaceDialog(ISearchResultsHandler *searchResults, MainW
 
 FindReplaceDialog::~FindReplaceDialog()
 {
+    // The smart half works on the widgets and the finder below, so it has to go
+    // first. Being a child QObject of this dialog it would be deleted anyway,
+    // but only at the very end of ~QObject - after the widgets went - which
+    // would leave its `dialog` pointer dangling for the whole teardown. Owning
+    // it here just makes the order explicit instead of implicit.
+    delete smart;
+    smart = Q_NULLPTR;
+
     delete ui;
     delete finder;
 }
@@ -252,6 +250,10 @@ void FindReplaceDialog::performFind(SearchDirection direction)
 
     FindResult result = direction == SearchDirection::Forwards ? finder->findNext() : finder->findPrev();
 
+    // "Match symbol": skip the hits that are not the complete identifier
+    // equal to the term. A search that is not filtered comes back untouched.
+    result = smart->skipFilteredHits(result, direction == SearchDirection::Forwards);
+
     if (result) {
         if (result.wrapped) {
             showMessage(tr("The end of the document has been reached. Found 1st occurrence from the top."), "green");
@@ -273,29 +275,9 @@ void FindReplaceDialog::findAllInCurrentDocument()
 {
     qInfo(Q_FUNC_INFO);
 
-    bool firstMatch = true;
-
-    QString text = findString();
-
-    finder->options().text = text;
-    finder->forEachMatch([&](int start, int end){
-        // Only add the file entry if there was a valid search result
-        if (firstMatch) {
-            searchResultsHandler->newFileEntry(editor);
-            firstMatch = false;
-        }
-
-        const int line = editor->lineFromPosition(start);
-        const int lineStartPosition = editor->positionFromLine(line);
-        const int lineEndPosition = editor->lineEndPosition(line);
-        const int startPositionFromBeginning = start - lineStartPosition;
-        const int endPositionFromBeginning = end - lineStartPosition;
-        QString lineText = editor->get_text_range(lineStartPosition, lineEndPosition);
-
-        searchResultsHandler->newResultsEntry(lineText, line, startPositionFromBeginning, endPositionFromBeginning);
-
-        return end;
-    });
+    // The hit list itself is built by the smart half, which is also the one
+    // that knows about the "Match symbol" rule.
+    smart->collectMatches(editor, QString());
 }
 
 void FindReplaceDialog::findAllInDocuments()
@@ -325,11 +307,18 @@ void FindReplaceDialog::replace()
         convertToExtended(replaceText);
     }
 
-    if (finder->replaceSelectionIfMatch(replaceText)) {
+    // "Match symbol": the single Replace honours the option too. The
+    // current selection is only replaced when it holds a hit that passes the
+    // filter, and the next hit is searched with the filter as well.
+    const bool replaced = smart->symbolFilterEngaged()
+        ? smart->replaceFilteredSelection(replaceText)
+        : static_cast<bool>(finder->replaceSelectionIfMatch(replaceText));
+
+    if (replaced) {
         showMessage(tr("1 occurrence was replaced"), "blue");
     }
 
-    FindResult result = finder->findNext();
+    FindResult result = smart->skipFilteredHits(finder->findNext(), true);
 
     if (result) {
         editor->goToRange(result.range);
@@ -353,7 +342,10 @@ void FindReplaceDialog::replaceAll()
         convertToExtended(replaceText);
     }
 
-    int count = finder->replaceAll(replaceText);
+    // "Match symbol": with the box checked, only hits that are the complete
+    // identifier equal to the term get replaced.
+    const int count = smart->replaceAllInEditor(editor, replaceText);
+
     showMessage(tr("Replaced %Ln matches", "", count), "green");
 }
 
@@ -464,6 +456,7 @@ void FindReplaceDialog::changeTab(int index)
         ui->buttonReplace->hide();
         ui->buttonReplaceAll->hide();
         ui->buttonReplaceAllInDocuments->hide();
+        ui->buttonReplaceAllInProject->hide();
         ui->buttonMarkAll->hide();
         ui->buttonClearAllMarks->hide();
         ui->buttonCopyMarkedText->hide();
@@ -471,9 +464,11 @@ void FindReplaceDialog::changeTab(int index)
         ui->buttonCount->show();
         ui->buttonFindAllInCurrent->show();
         ui->buttonFindAllInDocuments->show();
+        ui->buttonFindAllInProject->show();
 
         ui->checkBoxBookmarkLine->hide();
         ui->checkBoxPurgeForEachSearch->hide();
+        ui->checkBoxMatchSymbols->show();
 
         ui->checkBoxBackwardsDirection->setEnabled(!ui->radioRegexSearch->isChecked());
         ui->checkBoxWrapAround->setEnabled(true);
@@ -488,6 +483,7 @@ void FindReplaceDialog::changeTab(int index)
         ui->buttonReplace->show();
         ui->buttonReplaceAll->show();
         ui->buttonReplaceAllInDocuments->show();
+        ui->buttonReplaceAllInProject->show();
         ui->buttonMarkAll->hide();
         ui->buttonClearAllMarks->hide();
         ui->buttonCopyMarkedText->hide();
@@ -495,9 +491,11 @@ void FindReplaceDialog::changeTab(int index)
         ui->buttonCount->hide();
         ui->buttonFindAllInCurrent->hide();
         ui->buttonFindAllInDocuments->hide();
+        ui->buttonFindAllInProject->hide();
 
         ui->checkBoxBookmarkLine->hide();
         ui->checkBoxPurgeForEachSearch->hide();
+        ui->checkBoxMatchSymbols->show();
 
         ui->checkBoxBackwardsDirection->setEnabled(!ui->radioRegexSearch->isChecked());
         ui->checkBoxWrapAround->setEnabled(true);
@@ -512,9 +510,11 @@ void FindReplaceDialog::changeTab(int index)
         ui->buttonReplace->hide();
         ui->buttonReplaceAll->hide();
         ui->buttonReplaceAllInDocuments->hide();
+        ui->buttonReplaceAllInProject->hide();
         ui->buttonCount->hide();
         ui->buttonFindAllInCurrent->hide();
         ui->buttonFindAllInDocuments->hide();
+        ui->buttonFindAllInProject->hide();
 
         ui->buttonMarkAll->show();
         ui->buttonClearAllMarks->show();
@@ -522,6 +522,7 @@ void FindReplaceDialog::changeTab(int index)
 
         ui->checkBoxBookmarkLine->show();
         ui->checkBoxPurgeForEachSearch->show();
+        ui->checkBoxMatchSymbols->hide();
 
         ui->checkBoxBackwardsDirection->setEnabled(!ui->radioRegexSearch->isChecked());
         ui->checkBoxWrapAround->setEnabled(true);

@@ -32,7 +32,7 @@
 class ScintillaNext;
 class MainWindow;
 class BookMarkDecorator;
-
+class SmartFindReplaceDialog;
 namespace Ui {
 class FindReplaceDialog;
 }
@@ -40,6 +40,12 @@ class FindReplaceDialog;
 class FindReplaceDialog : public QDialog
 {
     Q_OBJECT
+
+    // The project aware half of this dialog lives in SmartFindReplaceDialog:
+    // the project wide searches and replacements, the state of the project
+    // buttons and the "Match symbol" rule. It works on the widgets and the
+    // finder of this dialog on its behalf.
+    friend class SmartFindReplaceDialog;
 
 public:
     enum {
@@ -100,6 +106,9 @@ private:
     QString findString() const;
     void performFind(SearchDirection direction);
     void prepareToPerformSearch(bool replace=false);
+    // Turns the escape sequences of an extended search into the characters they
+    // stand for. Shared with SmartFindReplaceDialog.
+    static void convertToExtended(QString &str);
     void loadSettings();
     void saveSettings();
 
@@ -123,8 +132,12 @@ private:
     ScintillaNext *editor;
     QStatusBar *statusBar;
     QTabBar *tabBar;
+
     ISearchResultsHandler *searchResultsHandler;
     Finder *finder;
+    // Child QObject of this dialog (see the constructor); it is deleted
+    // explicitly by the destructor so that it always goes before the widgets.
+    SmartFindReplaceDialog *smart = Q_NULLPTR;
 };
 
 #endif // FINDREPLACEDIALOG_H

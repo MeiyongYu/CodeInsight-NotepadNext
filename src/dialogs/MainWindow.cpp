@@ -27,6 +27,8 @@
 #include "UndoAction.h"
 #include "ui_MainWindow.h"
 
+#include "ProjectMainWindow.h"
+
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStringList>
@@ -78,8 +80,7 @@
 #include "QuickFindWidget.h"
 
 #include "EditorPane.h"
-#include "FunctionListWidget.h"
-#include "CtagsSymbolManager.h"
+
 
 #include "EditorPrintPreviewRenderer.h"
 #include "MacroEditorDialog.h"
@@ -96,16 +97,6 @@
 #include "FadingIndicator.h"
 
 #include "ActionUtils.h"
-
-
-// Opt-in diagnostics for the function list: set NOTEPADNEXT_FUNCTIONLIST_DEBUG=1
-// to trace why the panel stays empty (which language was detected, which ctags
-// binary is used and how many symbols came back).
-static bool functionListDebugEnabled()
-{
-    static const bool enabled = qEnvironmentVariableIsSet("NOTEPADNEXT_FUNCTIONLIST_DEBUG");
-    return enabled;
-}
 
 
 MainWindow::MainWindow(NotepadNextApplication *app) :
@@ -402,10 +393,26 @@ MainWindow::MainWindow(NotepadNextApplication *app) :
 
     SearchResultsDock *srDock = new SearchResultsDock(this);
     addDockWidget(Qt::BottomDockWidgetArea, srDock);
+    // The dock always owns the full bottom of the window: it can be closed
+    // and its top edge can be raised, but its title bar is inert - it can
+    // neither be floated nor dragged to (or inside) another dock area.
+    srDock->setAllowedAreas(Qt::BottomDockWidgetArea);
+    srDock->setFeatures(srDock->features()
+                        & ~(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable));
     srDock->toggleViewAction()->setShortcut(Qt::Key_F7);
     ui->menuView->addAction(srDock->toggleViewAction());
 
-    connect(srDock, &SearchResultsDock::searchResultActivated, this, [=, this](ScintillaNext *editor, int lineNumber, int startPositionFromBeginning, int endPositionFromBeginning) {
+    connect(srDock, &SearchResultsDock::searchResultActivated, this, [=, this](ScintillaNext *editor, const QString &filePath, int lineNumber, int startPositionFromBeginning, int endPositionFromBeginning) {
+        // A hit of a project file that was not open during the search carries no
+        // editor: open the file now (the hit's line/column come from the same
+        // file contents that were read from disk for the search) and then jump.
+        if (editor == Q_NULLPTR) {
+            editor = projectFeature->editorForFilePath(filePath);
+
+            if (editor == Q_NULLPTR)
+                return;
+        }
+
         dockedEditor->switchToEditor(editor);
 
         int linePos = editor->positionFromLine(lineNumber);
@@ -1016,30 +1023,11 @@ MainWindow::MainWindow(NotepadNextApplication *app) :
     addDockWidget(Qt::LeftDockWidgetArea, fileListDock);
     ui->menuView->addAction(fileListDock->toggleViewAction());
 
-    // ---------- Function list (attached inside the editor, not a dock) ----------
-    ctagsManager = new CtagsSymbolManager(this);
-
-    functionListAction = ui->menuView->addAction(tr("函数列表"));
-    functionListAction->setCheckable(true);
-    functionListAction->setChecked(app->getSettings()->value("FunctionList/Visible", true).toBool());
-    functionListAction->setObjectName(QStringLiteral("actionFunctionList"));
-    connect(functionListAction, &QAction::toggled, this, [this, app](bool on) {
-        app->getSettings()->setValue("FunctionList/Visible", on);
-        for (ScintillaNext *editor : dockedEditor->editors()) {
-            updateFunctionList(editor);
-        }
-    });
-
-    // The language and file name maps of ctags are probed in the background at
-    // start up. Re-evaluate every open file once they are there, so that a panel
-    // which had to be guessed before the probes finished ends up in the right
-    // state instead of staying wrong.
-    connect(ctagsManager, &CtagsSymbolManager::knowledgeReady, this, [this]() {
-        qInfo(Q_FUNC_INFO);
-        const QVector<ScintillaNext *> editors = dockedEditor->editors();
-        for (ScintillaNext *editor : editors)
-            updateFunctionList(editor);
-    });
+    // The codeinsight project feature (project menu/panel, function list,
+    // symbol jump, jump history, self check) lives in ProjectMainWindow so
+    // this file stays close to upstream: MainWindow only forwards the few
+    // entry points other modules need.
+    projectFeature = new ProjectMainWindow(this);
 
     connect(app->getSettings(), &ApplicationSettings::showMenuBarChanged, this, [this](bool showMenuBar) {
         // Don't 'hide' it, else the actions won't be enabled
@@ -1059,6 +1047,10 @@ MainWindow::MainWindow(NotepadNextApplication *app) :
     applyStyleSheet();
 
     restoreSettings();
+
+    // Project menu + panel + toolbar action. Created after restoreSettings()
+    // so the toolbar action is not dropped by a Gui/ToolBar repopulation.
+    projectFeature->setupProjectFeature();
 
     initUpdateCheck();
 }
@@ -1152,6 +1144,11 @@ void MainWindow::setupLanguageMenu()
 ScintillaNext *MainWindow::currentEditor() const
 {
     return dockedEditor->getCurrentEditor();
+}
+
+ProjectManager *MainWindow::getProjectManager() const
+{
+    return projectFeature ? projectFeature->getProjectManager() : Q_NULLPTR;
 }
 
 int MainWindow::editorCount() const
@@ -1898,7 +1895,6 @@ void MainWindow::activateEditor(ScintillaNext *editor)
 
     checkFileForModification(editor);
     updateGui(editor);
-    updateFunctionList(editor);
 
     emit editorActivated(editor);
 }
@@ -2079,6 +2075,12 @@ void MainWindow::saveSettings() const
     settings->setValue("MainWindow/geometry", saveGeometry());
     settings->setValue("MainWindow/windowState", saveState());
 
+    // The dock's height survives in a setting of its own (the saved window
+    // state's height is discarded on restore - see restoreWindowState).
+    const SearchResultsDock *srDock = findChild<SearchResultsDock *>();
+    settings->setValue("MainWindow/searchResultsHeight",
+                       srDock != Q_NULLPTR && srDock->isVisible() ? srDock->height() : 0);
+
     settings->setValue("Editor/ZoomLevel", zoomLevel);
 }
 
@@ -2120,9 +2122,29 @@ void MainWindow::restoreWindowState()
     restoreGeometry(settings->value("MainWindow/geometry").toByteArray());
     restoreState(settings->value("MainWindow/windowState").toByteArray());
 
-    // Always hide the dock no matter how the application was closed
+    // The height of the search results dock does not survive a state
+    // restore reliably, so it is kept in a setting of its own and applied
+    // once, when the dock is shown again.
     SearchResultsDock *srDock = findChild<SearchResultsDock *>();
+    pendingSearchResultsHeight = settings->value("MainWindow/searchResultsHeight").toInt();
+    connect(srDock, &QDockWidget::visibilityChanged, this, [this, srDock](bool visible) {
+        if (!visible || pendingSearchResultsHeight <= 0)
+            return;
+        // Apply it once the show has settled.
+        QTimer::singleShot(0, this, [this, srDock]() {
+            if (pendingSearchResultsHeight > 0 && srDock->isVisible()) {
+                resizeDocks({srDock}, {pendingSearchResultsHeight}, Qt::Vertical);
+                pendingSearchResultsHeight = 0;
+            }
+        });
+    });
+
+    // Always hide the dock no matter how the application was closed
     srDock->hide();
+
+    // The project panel follows the project lifecycle, not the saved window
+    // state (see ProjectMainWindow): hide it unless a project is already open.
+    projectFeature->hideProjectPanelIfNoProject();
 }
 
 void MainWindow::switchToEditor(const ScintillaNext *editor)
@@ -2188,6 +2210,10 @@ void MainWindow::addEditor(ScintillaNext *editor)
             "Delete",
             "",
             "SelectAll",
+            // The project wide rename of the name under the caret. The action is
+            // created by the project feature (SmartRenameDialog), which is also
+            // what greys it out while no project is open.
+            "SmartRename",
             "",
             "Base64Encode",
             "URLEncode",
@@ -2219,231 +2245,6 @@ void MainWindow::addEditor(ScintillaNext *editor)
 
     // The editor has been entirely configured at this point, so add it to the docked editor
     dockedEditor->addEditor(editor);
-
-    setupFunctionList(editor);
-}
-
-void MainWindow::setupFunctionList(ScintillaNext *editor)
-{
-    EditorPane *pane = EditorPane::paneForEditor(editor);
-    if (pane == Q_NULLPTR)
-        return;
-
-    FunctionListWidget *funcList = pane->functionList();
-
-    // Click a symbol -> switch to this editor and jump to the line
-    connect(funcList, &FunctionListWidget::jumpToLineRequested, this, [this, editor](int lineNumber) {
-        jumpFunctionList(editor, lineNumber);
-    });
-
-    // Regenerate the symbol list when the file is saved/reloaded/renamed or when
-    // its language changes. The cached result is dropped first, otherwise the
-    // refresh below would consider the file already done. The symbols currently
-    // on screen stay until the new ones arrive, so the panel does not flicker.
-    connect(editor, &ScintillaNext::saved, this, [this, editor]() { reparseFunctionList(editor); });
-    connect(editor, &ScintillaNext::reloaded, this, [this, editor]() { reparseFunctionList(editor); });
-    connect(editor, &ScintillaNext::renamed, this, [this, editor]() { reparseFunctionList(editor); });
-    // Language changed -> re-evaluate visibility/contents
-    connect(editor, &ScintillaNext::lexerChanged, this, [this, editor]() { reparseFunctionList(editor); });
-
-    // File closed: clear the list and stop any in-flight background ctags
-    // process. Only this file's request is cancelled - other editors may have
-    // their own parse running at the same time.
-    connect(editor, &ScintillaNext::closed, this, [this, editor]() {
-        EditorPane *p = EditorPane::paneForEditor(editor);
-        if (p)
-            p->functionList()->clearSymbols();
-        if (editor->isFile())
-            ctagsManager->cancel(editor->getFilePath());
-    });
-
-    // Deliver results for this editor (queued from the worker thread).
-    // The generation token guarantees only the newest request's result is applied.
-    QPointer<ScintillaNext> editorGuard = editor;
-    connect(ctagsManager, &CtagsSymbolManager::symbolsReady, this,
-            [this, editorGuard](int generation, const QString &filePath, const QVector<FunctionSymbol> &symbols) {
-                Q_UNUSED(generation)
-                if (editorGuard.isNull())
-                    return;
-                ScintillaNext *editor = editorGuard.data();
-                if (!editor->isFile() || editor->getFilePath() != filePath)
-                    return;
-                EditorPane *p = EditorPane::paneForEditor(editor);
-                if (p == Q_NULLPTR)
-                    return;
-
-                // Order matters: clearing the busy flag first keeps the hint from
-                // coming back when the list below turns out to be empty.
-                FunctionListWidget *funcList = p->functionList();
-                funcList->setBusy(false);
-                funcList->setSymbols(symbols);
-
-                // Visibility is not touched here on purpose: the panel was opened
-                // when the parse was requested, once ctags had claimed the file.
-                // A result without symbols therefore leaves it open and shows a
-                // hint, which is what makes the panel appear the moment a file is
-                // opened instead of a moment later.
-                if (functionListDebugEnabled()) {
-                    qInfo("FunctionList[debug]: %d symbol(s) delivered to %s, panel requested=%d",
-                          int(symbols.size()), qUtf8Printable(filePath),
-                          int(p->isFunctionListRequested()));
-
-                    // Offscreen test hook: NOTEPADNEXT_FUNCTIONLIST_AUTOJUMP=1
-                    // simulates a click on the first symbol so that the jump
-                    // (switch editor + scroll position) can be verified without
-                    // real mouse input.
-                    if (!symbols.isEmpty() && qEnvironmentVariableIsSet("NOTEPADNEXT_FUNCTIONLIST_AUTOJUMP")) {
-                        jumpFunctionList(editor, symbols.first().line);
-                    }
-                }
-            });
-
-    updateFunctionList(editor);
-}
-
-// The target line is placed about one third down the view ("upper middle"):
-// SCI_GOTOLINE alone pins it to the very top edge, which hides all context
-// above the function. One third keeps the signature comfortably high while the
-// surrounding code (the body above, includes, callers) stays visible.
-void MainWindow::jumpFunctionList(ScintillaNext *editor, int lineNumber)
-{
-    dockedEditor->switchToEditor(editor);
-
-    const sptr_t target = lineNumber - 1;
-    editor->gotoLine(target);
-
-    const sptr_t visible = editor->linesOnScreen();
-    const sptr_t offset = qMax<sptr_t>(1, visible / 3);
-    editor->setFirstVisibleLine(qMax<sptr_t>(0, target - offset));
-    editor->grabFocus();
-
-    if (functionListDebugEnabled()) {
-        qInfo("FunctionList[debug]: jump to line %d -> firstVisible=%d linesOnScreen=%d position=%.2f",
-              lineNumber, int(editor->firstVisibleLine()) + 1, int(visible),
-              visible > 0 ? double(target - editor->firstVisibleLine()) / visible : 0.0);
-    }
-}
-
-// Single entry point of the function list. It is deliberately idempotent and
-// cheap - the expensive part (ctags itself) always runs in the background - so
-// it can be called on every file open, tab switch, save and menu toggle:
-//
-//   * the panel is opened as soon as ctags says it can handle the file, well
-//     before any symbol exists, so switching to a file feels instant;
-//   * the symbol list then fills in when the background parse delivers.
-void MainWindow::updateFunctionList(ScintillaNext *editor)
-{
-    if (editor == Q_NULLPTR)
-        return;
-
-    EditorPane *pane = EditorPane::paneForEditor(editor);
-    if (pane == Q_NULLPTR)
-        return;
-
-    FunctionListWidget *funcList = pane->functionList();
-    funcList->setFileLabel(editor->getName());
-
-    // Feature switch (view menu action). There is no language whitelist any more:
-    // the language is resolved per file and ctags itself decides what it can
-    // parse, so every language either project knows about is covered by
-    // construction instead of by a table that has to be maintained.
-    const bool enabled = functionListAction != Q_NULLPTR && functionListAction->isChecked();
-    pane->setFunctionListEnabled(enabled);
-
-    // Unsaved buffers have no file on disk yet, nothing can be parsed for them.
-    const QString filePath = editor->isFile() ? editor->getFilePath() : QString();
-    const QString ctagsLanguage = ctagsLanguageFor(editor->languageName);
-    const bool supported = enabled && !filePath.isEmpty()
-            && CtagsSymbolManager::canParse(filePath, ctagsLanguage);
-
-    pane->setFunctionListVisible(supported);
-
-    if (functionListDebugEnabled()) {
-        qInfo("FunctionList[debug]: file=%s language=\"%s\" ctagsLanguage=\"%s\" supported=%d panel=%d symbols=%d pending=%d parsed=%d",
-              qUtf8Printable(editor->getName()),
-              qUtf8Printable(editor->languageName),
-              ctagsLanguage.isEmpty() ? "(ctags auto-detect)" : qUtf8Printable(ctagsLanguage),
-              int(supported), int(pane->isFunctionListRequested()),
-              funcList->symbolCount(), int(ctagsManager->isPending(filePath)),
-              int(ctagsManager->hasParsed(filePath)));
-    }
-
-    if (!supported) {
-        // Nothing to show, and no cached result may survive: without this a file
-        // switched off via the menu would still count as parsed and would come
-        // back empty when the feature is switched on again.
-        if (!filePath.isEmpty())
-            ctagsManager->invalidate(filePath);
-        funcList->setBusy(false);
-        funcList->clearSymbols();
-        return;
-    }
-
-    // The list is already up to date (or on its way): this is what keeps tab
-    // switching from re-running ctags for every file over and over.
-    if (ctagsManager->isPending(filePath) || ctagsManager->hasParsed(filePath))
-        return;
-
-    // Announce the parse while the panel is still empty, so the wait is visible.
-    if (funcList->symbolCount() == 0)
-        funcList->setBusy(true);
-
-    ctagsManager->request(filePath, ctagsLanguage);
-}
-
-// The file changed on disk (or its language was changed), so whatever ctags said
-// about it before is void.
-void MainWindow::reparseFunctionList(ScintillaNext *editor)
-{
-    if (editor == Q_NULLPTR)
-        return;
-
-    if (editor->isFile())
-        ctagsManager->invalidate(editor->getFilePath());
-
-    updateFunctionList(editor);
-}
-
-// Language names have to survive the differences in spelling between the two
-// projects ("Objective-C" vs "ObjectiveC", "ADA" vs "Ada"), so case and
-// separators are removed before comparing. '+' and '#' are deliberately kept:
-// without them C, C++ and C# would all collapse into the same key.
-static QString normalizeLanguageName(QString name)
-{
-    name = name.toLower();
-
-    static const QString separators = QStringLiteral(" \t.-_/()[]");
-    for (const QChar separator : separators)
-        name.remove(separator);
-
-    return name;
-}
-
-QString MainWindow::ctagsLanguageFor(const QString &languageName)
-{
-    if (languageName.isEmpty())
-        return QString();
-
-    const QString wanted = normalizeLanguageName(languageName);
-    if (wanted.isEmpty())
-        return QString();
-
-    // The mapping is derived from ctags itself rather than being hand written, so
-    // it covers every language the installed build understands and stays correct
-    // across ctags upgrades.
-    //
-    // A name without a match returns an empty string, which makes the worker
-    // leave the language to ctags' own file name detection. That still covers
-    // every language ctags knows, so a missing entry only costs the cross-check
-    // (which is what corrects extensions like ".v", taken for V rather than
-    // Verilog) and never the feature itself.
-    const QStringList known = CtagsSymbolManager::knownLanguages();
-    for (const QString &candidate : known) {
-        if (normalizeLanguageName(candidate) == wanted)
-            return candidate;
-    }
-
-    return QString();
 }
 
 void MainWindow::checkForUpdates(bool silent)

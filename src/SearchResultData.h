@@ -23,8 +23,17 @@
 namespace SearchResultData {
     enum Role
     {
+        // Result item (column 1): the line the hit sits on plus where inside
+        // that line it starts and ends.
         LineNumber = Qt::UserRole,
         LinePosStart,
-        LinePosEnd
+        LinePosEnd,
+        // Result item (column 1): set when the line text should be highlighted.
+        Highlight,
+        // File item (column 0): the path of the file the hits belong to. It is
+        // kept next to the editor pointer (Qt::UserRole of the same column) so
+        // that a hit group can still be opened when its file is not in an
+        // editor at all - which is the normal case for a project wide search.
+        FilePath
     };
 }

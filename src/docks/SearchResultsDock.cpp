@@ -18,7 +18,9 @@
 
 
 #include "ApplicationSettings.h"
+#include "DockTabTitleBar.h"
 #include "NotepadNextApplication.h"
+#include "RelationForm.h"
 #include "SearchResultHighlighterDelegate.h"
 #include "SearchResultData.h"
 #include "SearchResultsDock.h"
@@ -37,6 +39,29 @@ SearchResultsDock::SearchResultsDock(QWidget *parent) :
     ui(new Ui::SearchResultsDock)
 {
     ui->setupUi(this);
+
+    // The two views share this one panel, so the plain dock title text is
+    // replaced by tab buttons in the title bar. Tabs and pages line up by
+    // index (see PanelPage).
+    titleBar = new DockTabTitleBar(this);
+    titleBar->addTab(tr("Search Results"));
+    titleBar->addTab(tr("Relation Panel"));
+    connect(titleBar, &DockTabTitleBar::currentChanged, ui->pageStack, &QStackedWidget::setCurrentIndex);
+    setTitleBarWidget(titleBar);
+    // The title bar picked its first tab while nothing was connected yet.
+    ui->pageStack->setCurrentIndex(titleBar->currentIndex());
+
+    // ---- relation panel page ----
+    // The page's whole body - the row of windows (the Context view first,
+    // then the relation forms), their geometry, their drags, the layout the
+    // settings keep - is RelationPanel's business (see RelationForm.h). The
+    // dock hands the page over and relays the two requests that reach the
+    // main window.
+    relationPanel = new RelationPanel(ui->relationPanelPage);
+    connect(relationPanel, &RelationPanel::relationFormRefreshRequested,
+            this, &SearchResultsDock::relationFormRefreshRequested);
+    connect(relationPanel, &RelationPanel::relationFormOpenRequested,
+            this, &SearchResultsDock::relationFormOpenRequested);
 
     // Close the results when escape is pressed
     new QShortcut(QKeySequence::Cancel, this, this, &SearchResultsDock::close, Qt::WidgetWithChildrenShortcut);
@@ -81,12 +106,59 @@ SearchResultsDock::SearchResultsDock(QWidget *parent) :
 
 SearchResultsDock::~SearchResultsDock()
 {
+    // Whatever the last change was, it gets its write before the dock goes.
+    saveRelationPanelLayout();
+
     delete ui;
 }
+
+// ---- the relation panel: thin delegation -----------------------------------
+// Every call goes straight to RelationPanel, the page's body (see
+// RelationForm.h); the dock adds nothing of its own.
+
+ContextPanel *SearchResultsDock::contextPanel() const
+{
+    return relationPanel->contextPanel();
+}
+
+void SearchResultsDock::initRelationPanel(ProjectManager *projectManager)
+{
+    relationPanel->init(projectManager);
+}
+
+QList<RelationForm *> SearchResultsDock::relationForms() const
+{
+    return relationPanel->forms();
+}
+
+void SearchResultsDock::saveRelationPanelLayout()
+{
+    relationPanel->saveLayout();
+}
+
+void SearchResultsDock::updateUnlockedRelationRoots(const QString &name, const QString &filePath, int line)
+{
+    relationPanel->updateUnlockedRoots(name, filePath, line);
+}
+
+void SearchResultsDock::showRelationPanel()
+{
+    // Bringing the relation panel up means opening the dock - both views share
+    // it, so it may well be closed - and picking its tab, because the Context
+    // view lives on that page.
+    show();
+    raise();
+    titleBar->setCurrentIndex(RelationPanelPage);
+}
+
 
 void SearchResultsDock::newSearch(const QString searchTerm)
 {
     show();
+
+    // A new search always brings its own view to the front: the panel can be
+    // sitting on the relation panel tab when the search starts.
+    titleBar->setCurrentIndex(SearchResultsPage);
 
     this->searchTerm = searchTerm;
 
@@ -107,16 +179,25 @@ void SearchResultsDock::newSearch(const QString searchTerm)
     updateSearchStatus();
 }
 
-void SearchResultsDock::newFileEntry(ScintillaNext *editor)
+void SearchResultsDock::newFileEntry(ScintillaNext *editor, const QString &filePath)
 {
     // Store a QPointer since there is no guarantee this editor will be around later
     QPointer<ScintillaNext> editor_pointer = editor;
 
     totalFileHitCount = 0;
-    currentFilePath = editor->isFile() ? editor->getFilePath() : editor->getName();
+
+    if (!filePath.isEmpty())
+        currentFilePath = filePath;
+    else if (editor != Q_NULLPTR)
+        currentFilePath = editor->isFile() ? editor->getFilePath() : editor->getName();
+    else
+        currentFilePath = QString(); // unsaved, unnamed buffer: nothing to show
 
     currentFile = new QTreeWidgetItem(currentSearch);
     currentFile->setData(0, Qt::UserRole, QVariant::fromValue(editor_pointer));
+    // The path is what lets a hit group whose file is not open yet be opened
+    // when one of its results is activated (project wide search).
+    currentFile->setData(0, SearchResultData::FilePath, currentFilePath);
 
     currentFile->setBackground(0, QColor(213, 255, 213));
     currentFile->setForeground(0, QColor(0, 128, 0));
@@ -139,7 +220,7 @@ void SearchResultsDock::newResultsEntry(const QString line, int lineNumber, int 
     item->setData(1, SearchResultData::LineNumber, lineNumber);
     item->setData(1, SearchResultData::LinePosStart, startPositionFromBeginning);
     item->setData(1, SearchResultData::LinePosEnd, endPositionFromBeginning);
-    item->setData(1, Qt::UserRole + 3, true); // <- Flag to enable highlight
+    item->setData(1, SearchResultData::Highlight, true); // <- Flag to enable highlight
     item->setText(1, line);
 
     totalFileHitCount += hitCount;
@@ -196,15 +277,19 @@ void SearchResultsDock::itemActivated(QTreeWidgetItem *item, int column)
     // Result entries have no children
     // Make sure the entry has a parent since search entries can have no children
     if (item->childCount() == 0 && item->parent() != Q_NULLPTR) {
-        QPointer<ScintillaNext> editor = item->parent()->data(0, Qt::UserRole).value<QPointer<ScintillaNext>>();
+        QTreeWidgetItem *fileItem = item->parent();
+        QPointer<ScintillaNext> editor = fileItem->data(0, Qt::UserRole).value<QPointer<ScintillaNext>>();
+        const QString filePath = fileItem->data(0, SearchResultData::FilePath).toString();
 
-        // The editor may no longer exist
-        if (editor) {
+        // The editor may no longer exist - or was never there, which is how a
+        // project file that is not open shows up. Either way the path still
+        // lets the window open the file, so the hit stays clickable.
+        if (editor || !filePath.isEmpty()) {
             int lineNumber = item->data(1, SearchResultData::LineNumber).toInt();
             int startPositionFromBeginning = item->data(1, SearchResultData::LinePosStart).toInt();
             int endPositionFromBeginning = item->data(1, SearchResultData::LinePosEnd).toInt();
 
-            emit searchResultActivated(editor, lineNumber, startPositionFromBeginning, endPositionFromBeginning);
+            emit searchResultActivated(editor, filePath, lineNumber, startPositionFromBeginning, endPositionFromBeginning);
         }
     }
 }

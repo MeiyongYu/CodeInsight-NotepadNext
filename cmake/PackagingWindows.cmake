@@ -56,7 +56,28 @@ add_custom_target(package
 # flat into the package root so that the application's own lookup (next to
 # NotepadNext.exe) finds them without any PATH configuration, mirroring the
 # deploy/macos/ctags_x64 + cscope_x64 bundles of the macOS packaging.
+#
+# The MinGW runtime DLLs are bundled as well: windeployqt runs with
+# --no-compiler-runtime, and without them the executable cannot start on a
+# machine that does not have the compiler's bin directory on its PATH.
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	get_filename_component(MINGW_BIN_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+	set(MINGW_RUNTIME_DLLS
+		libgcc_s_seh-1.dll
+		libstdc++-6.dll
+		libwinpthread-1.dll
+	)
+	set(MINGW_RUNTIME_COMMANDS "")
+	foreach(dll ${MINGW_RUNTIME_DLLS})
+		if(EXISTS "${MINGW_BIN_DIR}/${dll}")
+			list(APPEND MINGW_RUNTIME_COMMANDS
+				COMMAND ${CMAKE_COMMAND} -E copy_if_different
+					"${MINGW_BIN_DIR}/${dll}"
+					"${PACKAGE_DIR}/${dll}"
+			)
+		endif()
+	endforeach()
+
 	add_custom_command(TARGET package POST_BUILD
 		COMMENT "Bundling ctags and cscope (windows x86_64)"
 		VERBATIM
@@ -68,6 +89,8 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
 			"${CMAKE_SOURCE_DIR}/deploy/windows/cscope_x86_64"
 			"${PACKAGE_DIR}/"
+
+		${MINGW_RUNTIME_COMMANDS}
 	)
 endif()
 
@@ -86,6 +109,10 @@ add_custom_target(zip
 	DEPENDS package
 	COMMENT "Creating zip archive of NotepadNext package"
 	VERBATIM
+	# 7z "a" updates an existing archive instead of rebuilding it, so a stale
+	# zip from an earlier layout would silently survive inside the new one.
+	# Always start from a clean file.
+	COMMAND ${CMAKE_COMMAND} -E rm -f "${ZIP_FILE}"
 	COMMAND "${SEVENZ_EXECUTABLE}" a -tzip
 		"${ZIP_FILE}"
 		"${PACKAGE_DIR}/*"
