@@ -24,17 +24,17 @@ L.styles = {
 	},
 	["COMMENT"] = {
 		id = 1,
-		fgColor = rgb(0x669999),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 2,
-		fgColor = rgb(0x339933),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPERATOR"] = {
 		id = 3,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["INSTR"] = {
@@ -44,8 +44,9 @@ L.styles = {
 	},
 	["IDENTIFIER"] = {
 		id = 5,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["OPCODE"] = {
 		id = 6,
@@ -60,12 +61,12 @@ L.styles = {
 	},
 	["USER KEYWORDS"] = {
 		id = 8,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["COMMENT BLOCK"] = {
 		id = 9,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["PARAMETER"] = {
@@ -96,7 +97,7 @@ L.styles = {
 	},
 	["END OF LINE WHERE STRING IS NOT CLOSED"] = {
 		id = 15,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xE0C0E0),
 	},
 }

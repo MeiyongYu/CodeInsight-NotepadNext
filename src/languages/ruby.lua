@@ -36,23 +36,23 @@ L.styles = {
 	},
 	["NUMBER"] = {
 		id = 4,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["INSTRUCTION"] = {
 		id = 5,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["STRING"] = {
 		id = 6,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CHARACTER"] = {
 		id = 7,
-		fgColor = rgb(0x808000),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CLASS NAME"] = {
@@ -69,14 +69,15 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 10,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["IDENTIFIER"] = {
 		id = 11,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["REGEX"] = {
 		id = 12,
@@ -122,7 +123,7 @@ L.styles = {
 	},
 	["STRING Q"] = {
 		id = 24,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 }

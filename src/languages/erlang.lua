@@ -26,28 +26,28 @@ L.styles = {
 	},
 	["DEFAULT COMMENT"] = {
 		id = 1,
-		fgColor = rgb(0xd00000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["FUNCTION COMMENT"] = {
 		id = 14,
-		fgColor = rgb(0x3f5fbf),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["MODULE COMMENT"] = {
 		id = 15,
-		fgColor = rgb(0x3f5fbf),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["DOCUMENTATION HELPER IN COMMENT"] = {
 		id = 16,
-		fgColor = rgb(0x3f5fbf),
+		fgColor = rgb(0x008080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["DOCUMENTATION MACRO IN COMMENT"] = {
 		id = 17,
-		fgColor = rgb(0x3f5fbf),
+		fgColor = rgb(0x008080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 3,
 	},
@@ -58,17 +58,17 @@ L.styles = {
 	},
 	["NUMBER"] = {
 		id = 3,
-		fgColor = rgb(0x007f00),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 5,
-		fgColor = rgb(0xff901e),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CHARACTER"] = {
 		id = 9,
-		fgColor = rgb(0x007f00),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["MACRO"] = {
@@ -115,7 +115,7 @@ L.styles = {
 	},
 	["RESERVED WORDS"] = {
 		id = 4,
-		fgColor = rgb(0x00007f),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -142,12 +142,12 @@ L.styles = {
 	},
 	["PREPROCESSOR"] = {
 		id = 12,
-		fgColor = rgb(0x007f7f),
+		fgColor = rgb(0x804000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPERATORS"] = {
 		id = 6,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["UNKNOWN: ERROR"] = {

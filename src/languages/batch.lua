@@ -27,7 +27,7 @@ L.styles = {
 	},
 	["KEYWORDS"] = {
 		id = 2,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -55,7 +55,7 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 7,
-		fgColor = rgb(0xFF0000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},

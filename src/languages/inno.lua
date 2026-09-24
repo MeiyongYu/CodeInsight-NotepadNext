@@ -30,7 +30,7 @@ L.styles = {
 	},
 	["KEYWORD"] = {
 		id = 2,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -48,47 +48,48 @@ L.styles = {
 	},
 	["PREPROCESSOR"] = {
 		id = 5,
-		fgColor = rgb(0x800000),
+		fgColor = rgb(0x804000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["PREPROCESSOR INLINE"] = {
 		id = 6,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x804000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["COMMENT PASCAL"] = {
 		id = 7,
-		fgColor = rgb(0x008080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEYWORD PASCAL"] = {
 		id = 8,
-		fgColor = rgb(0x0080C0),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["KEYWORD USER"] = {
 		id = 9,
-		fgColor = rgb(0x8080FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFCC),
 		fontStyle = 1,
 	},
 	["STRING DOUBLE"] = {
 		id = 10,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING SINGLE"] = {
 		id = 11,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["IDENTIFIER"] = {
 		id = 12,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 }
 return L

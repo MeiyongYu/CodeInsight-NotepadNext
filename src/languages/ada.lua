@@ -22,34 +22,35 @@ L.styles = {
 	},
 	["INSTRUCTION WORD"] = {
 		id = 1,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["IDENTIFIER"] = {
 		id = 2,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["NUMBER"] = {
 		id = 3,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["DELIMITER"] = {
 		id = 4,
-		fgColor = rgb(0xFF8080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["CHARACTER"] = {
 		id = 5,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 7,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["LABEL"] = {

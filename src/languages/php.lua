@@ -25,7 +25,7 @@ L.keywords = {
 L.styles = {
 	["QUESTION MARK"] = {
 		id = 18,
-		fgColor = rgb(0xFF0000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFDF8E3),
 	},
 	["DEFAULT"] = {
@@ -35,7 +35,7 @@ L.styles = {
 	},
 	["STRING"] = {
 		id = 119,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFEFCF5),
 	},
 	["COMPLEX VARIABLE"] = {
@@ -46,24 +46,24 @@ L.styles = {
 	},
 	["STRING VARIABLE"] = {
 		id = 126,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFEFCF5),
 		fontStyle = 1,
 	},
 	["SIMPLESTRING"] = {
 		id = 120,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFEFCF5),
 	},
 	["WORD"] = {
 		id = 121,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFEFCF5),
 		fontStyle = 1,
 	},
 	["NUMBER"] = {
 		id = 122,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFEFCF5),
 	},
 	["VARIABLE"] = {
@@ -83,7 +83,7 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 127,
-		fgColor = rgb(0x8000FF),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFEFCF5),
 	},
 }

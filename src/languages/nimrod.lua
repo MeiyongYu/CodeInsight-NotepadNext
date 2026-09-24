@@ -20,27 +20,27 @@ L.styles = {
 	},
 	["COMMENT"] = {
 		id = 1,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 2,
-		fgColor = rgb(0x007F7F),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 3,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["SINGLE QUOTED STRING"] = {
 		id = 4,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEYWORD"] = {
 		id = 5,
-		fgColor = rgb(0x00007F),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -68,23 +68,24 @@ L.styles = {
 	},
 	["OPERATORS"] = {
 		id = 10,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["IDENTIFIERS"] = {
 		id = 11,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["COMMENT-BLOCKS"] = {
 		id = 12,
-		fgColor = rgb(0x7F7F7F),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["END OF LINE WHERE STRING IS NOT CLOSED"] = {
 		id = 13,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xE0C0E0),
 	},
 	["HIGHLIGHTED IDENTIFIERS"] = {

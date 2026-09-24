@@ -24,17 +24,17 @@ L.styles = {
 	},
 	["NUMBER"] = {
 		id = 3,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 4,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPERATOR"] = {
 		id = 5,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["PROCESSORS"] = {

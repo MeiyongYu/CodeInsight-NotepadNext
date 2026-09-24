@@ -28,17 +28,17 @@ L.styles = {
     },
     ["COMMENT BLOCK"] = {
         id = 2,
-        fgColor = rgb(0x008080),
+        fgColor = rgb(0x008000),
         bgColor = rgb(0xFFFFFF),
     },
     ["STRING"] = {
         id = 3,
-        fgColor = rgb(0x808080),
+        fgColor = rgb(0x800000),
         bgColor = rgb(0xFFFFFF),
     },
     ["STRING MULTILINE"] = {
         id = 4,
-        fgColor = rgb(0x808080),
+        fgColor = rgb(0x800000),
         bgColor = rgb(0xFFFFFF),
     },
     ["ESCAPECHAR"] = {
@@ -49,24 +49,25 @@ L.styles = {
     },
     ["IDENTIFIER"] = {
         id = 6,
-        fgColor = rgb(0x000000),
+        fgColor = rgb(0x000080),
         bgColor = rgb(0xFFFFFF),
+        fontStyle = 1,
     },
     ["OPERATOR"] = {
         id = 7,
-        fgColor = rgb(0x000080),
+        fgColor = rgb(0x800080),
         bgColor = rgb(0xFFFFFF),
         fontStyle = 1,
     },
     ["OPERATOR_STRING"] = {
         id = 8,
-        fgColor = rgb(0x808080),
+        fgColor = rgb(0x800000),
         bgColor = rgb(0xFFFFFF),
         fontStyle = 1,
     },
     ["NUMBER"] = {
         id = 9,
-        fgColor = rgb(0xFF8000),
+        fgColor = rgb(0xFF0000),
         bgColor = rgb(0xFFFFFF),
     },
     ["KEY"] = {
@@ -81,25 +82,25 @@ L.styles = {
     },
     ["KEYWORD1"] = {
         id = 12,
-        fgColor = rgb(0x0000FF),
+        fgColor = rgb(0x008000),
         bgColor = rgb(0xFFFFFF),
         fontStyle = 1,
     },
     ["KEYWORD2"] = {
         id = 13,
-        fgColor = rgb(0x0000FF),
+        fgColor = rgb(0x008000),
         bgColor = rgb(0xFFFFFF),
         fontStyle = 1,
     },
     ["KEYWORD3"] = {
         id = 14,
-        fgColor = rgb(0x0000FF),
+        fgColor = rgb(0x008000),
         bgColor = rgb(0xFFFFFF),
         fontStyle = 1,
     },
     ["KEYWORD4"] = {
         id = 15,
-        fgColor = rgb(0x880088),
+        fgColor = rgb(0x008000),
         bgColor = rgb(0xFFFFFF),
         fontStyle = 1,
     }

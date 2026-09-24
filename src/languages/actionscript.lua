@@ -17,8 +17,9 @@ L.keywords = {
 L.styles = {
 	["DEFAULT"] = {
 		id = 11,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["FUNCTION"] = {
 		id = 20,
@@ -32,39 +33,39 @@ L.styles = {
 	},
 	["INSTRUCTION WORD"] = {
 		id = 5,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["TYPE WORD"] = {
 		id = 16,
-		fgColor = rgb(0x8000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 4,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 6,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CHARACTER"] = {
 		id = 7,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPERATOR"] = {
 		id = 10,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["VERBATIM"] = {
 		id = 13,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},

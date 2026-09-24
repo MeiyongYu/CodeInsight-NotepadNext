@@ -36,39 +36,40 @@ L.styles = {
 	},
 	["COMMENT LINE BANG"] = {
 		id = 15,
-		fgColor = rgb(0x008080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 3,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 4,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPERATOR"] = {
 		id = 5,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["IDENTIFIER"] = {
 		id = 6,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["INSTRUCTION"] = {
 		id = 8,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["STD OPERATOR"] = {
 		id = 9,
-		fgColor = rgb(0x0080C0),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -91,7 +92,7 @@ L.styles = {
 	},
 	["STD TYPE"] = {
 		id = 13,
-		fgColor = rgb(0x8000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["USER DEFINE"] = {

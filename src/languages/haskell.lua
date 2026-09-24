@@ -22,28 +22,29 @@ L.styles = {
 	},
 	["IDENTIFIER"] = {
 		id = 1,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["KEYWORD"] = {
 		id = 2,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["NUMBER"] = {
 		id = 3,
-		fgColor = rgb(0x800080),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 4,
-		fgColor = rgb(0xCA6500),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CHARACTER"] = {
 		id = 5,
-		fgColor = rgb(0xCA6500),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CLASS"] = {
@@ -74,7 +75,7 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 11,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["INSTANCE"] = {

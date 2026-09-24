@@ -25,12 +25,12 @@ L.styles = {
 	},
 	["SINGLE-LINE COMMENT"] = {
 		id = 1,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["MULTI-LINE COMMENT"] = {
 		id = 2,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["#IFDEF DOC AND #ENDIF"] = {
@@ -40,22 +40,22 @@ L.styles = {
 	},
 	["PREPROCESSOR DIRECTIVE"] = {
 		id = 4,
-		fgColor = rgb(0x7F7F00),
+		fgColor = rgb(0x804000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 5,
-		fgColor = rgb(0x007F7F),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING SINGLE QUOTES"] = {
 		id = 6,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING DOUBLE QUOTES"] = {
 		id = 7,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CONSTANT LITERAL"] = {
@@ -65,8 +65,9 @@ L.styles = {
 	},
 	["IDENTIFIER"] = {
 		id = 9,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["SERVER-GLOBAL VARIABLE (PREFIXED BY $)"] = {
 		id = 10,
@@ -75,13 +76,13 @@ L.styles = {
 	},
 	["LANGUAGE NATIVE KEYWORD OR RESERVED WORD"] = {
 		id = 11,
-		fgColor = rgb(0x00007F),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["OPERATOR; EITHER SYMBOLIC OR LITERAL"] = {
 		id = 12,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -92,7 +93,7 @@ L.styles = {
 	},
 	["TYPE"] = {
 		id = 14,
-		fgColor = rgb(0x00007F),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["FUNCTION"] = {

@@ -21,63 +21,64 @@ L.styles = {
 	},
 	["IDENTIFIER"] = {
 		id = 14,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["INSTRUCTION WORD"] = {
 		id = 6,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["KEWORD1"] = {
 		id = 7,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEWORD2"] = {
 		id = 8,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEWORD3"] = {
 		id = 9,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEWORD4"] = {
 		id = 20,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEWORD5"] = {
 		id = 21,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEWORD6"] = {
 		id = 22,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 5,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 10,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CHARACTER"] = {
 		id = 12,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPERATOR"] = {
 		id = 13,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -98,7 +99,7 @@ L.styles = {
 	},
 	["COMMENT NESTED"] = {
 		id = 4,
-		fgColor = rgb(0x008080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["COMMENT LINE DOC"] = {
@@ -119,12 +120,12 @@ L.styles = {
 	},
 	["STRING B"] = {
 		id = 18,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING R"] = {
 		id = 19,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 }

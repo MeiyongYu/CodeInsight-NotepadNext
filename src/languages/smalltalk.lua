@@ -18,12 +18,12 @@ L.styles = {
 	},
 	["STRING"] = {
 		id = 1,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 2,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["COMMENT"] = {
@@ -92,7 +92,7 @@ L.styles = {
 	},
 	["CHARACTER"] = {
 		id = 15,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["SPECIAL SELECTOR"] = {
