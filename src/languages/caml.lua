@@ -23,8 +23,9 @@ L.styles = {
 	},
 	["IDENTIFIER"] = {
 		id = 1,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["TAGNAME"] = {
 		id = 2,
@@ -33,7 +34,7 @@ L.styles = {
 	},
 	["INSTRUCTION WORD"] = {
 		id = 3,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -44,7 +45,7 @@ L.styles = {
 	},
 	["TYPE"] = {
 		id = 5,
-		fgColor = rgb(0x8000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["LINENUM"] = {
@@ -55,23 +56,23 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 7,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["NUMBER"] = {
 		id = 8,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CHARACTER"] = {
 		id = 9,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 11,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["COMMENT"] = {

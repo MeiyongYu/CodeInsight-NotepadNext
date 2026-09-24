@@ -30,19 +30,20 @@ L.styles = {
 	},
 	["WORD"] = {
 		id = 84,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xC4F9FD),
 		fontStyle = 1,
 	},
 	["STRING"] = {
 		id = 85,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xC4F9FD),
 	},
 	["IDENTIFIER"] = {
 		id = 86,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xC4F9FD),
+		fontStyle = 1,
 	},
 	["ASPSYMBOL"] = {
 		id = 15,

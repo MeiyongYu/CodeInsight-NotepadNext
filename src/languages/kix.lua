@@ -25,17 +25,17 @@ L.styles = {
 	},
 	["STRING"] = {
 		id = 2,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING2"] = {
 		id = 3,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 4,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["VAR"] = {
@@ -50,7 +50,7 @@ L.styles = {
 	},
 	["INSTRUCTION WORD"] = {
 		id = 7,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -61,7 +61,7 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 9,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},

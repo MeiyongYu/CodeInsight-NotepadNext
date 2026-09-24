@@ -33,18 +33,18 @@ L.styles = {
 	},
 	["INSTRUCTION WORD"] = {
 		id = 12,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["TYPE WORD"] = {
 		id = 13,
-		fgColor = rgb(0x8000FF),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 3,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["SUB BRACE"] = {
@@ -59,14 +59,15 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 6,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["IDENTIFIER"] = {
 		id = 7,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["WORD IN QUOTE"] = {
 		id = 4,
@@ -92,13 +93,13 @@ L.styles = {
 	},
 	["COMMENT BOX"] = {
 		id = 17,
-		fgColor = rgb(0x008080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["BLOCK COMMENT"] = {
 		id = 18,
-		fgColor = rgb(0x008080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 }

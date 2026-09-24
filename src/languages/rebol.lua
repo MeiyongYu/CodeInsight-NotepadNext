@@ -34,12 +34,12 @@ L.styles = {
 	},
 	["LINE COMMENT"] = {
 		id = 1,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["BLOCK COMMENT"] = {
 		id = 2,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["PREFACE"] = {
@@ -50,28 +50,28 @@ L.styles = {
 	},
 	["OPERATORS"] = {
 		id = 4,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["CHARACTERS"] = {
 		id = 5,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING WITH QUOTES"] = {
 		id = 6,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING WITH BRACES"] = {
 		id = 7,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["NUMBER"] = {
 		id = 8,
-		fgColor = rgb(0x007F7F),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["PAIR ( 800X600 )"] = {
@@ -131,45 +131,46 @@ L.styles = {
 	},
 	["IDENTIFIERS"] = {
 		id = 20,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["KEYWORD (ALL)"] = {
 		id = 21,
-		fgColor = rgb(0x00007F),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["KEYWORD (TEST FUNCTIONS)"] = {
 		id = 22,
-		fgColor = rgb(0x8000C0),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["KEYWORD (DATATYPES)"] = {
 		id = 23,
-		fgColor = rgb(0x800060),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["KEYWORD 4"] = {
 		id = 24,
-		fgColor = rgb(0xDD9900),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEYWORD 5"] = {
 		id = 25,
-		fgColor = rgb(0xDD9900),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEYWORD 6"] = {
 		id = 26,
-		fgColor = rgb(0xDD9900),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["KEYWORD 7"] = {
 		id = 27,
-		fgColor = rgb(0xDD9900),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 }

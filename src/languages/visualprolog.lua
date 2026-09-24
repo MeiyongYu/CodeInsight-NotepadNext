@@ -42,28 +42,29 @@ L.styles = {
 	},
 	["COMMENT BLOCK"] = {
 		id = 4,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["COMMENT LINE"] = {
 		id = 5,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["COMMENT KEY"] = {
 		id = 6,
-		fgColor = rgb(0x8050A0),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["COMMENT KEY ERROR"] = {
 		id = 7,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["IDENTIFIER"] = {
 		id = 8,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["VARIABLE"] = {
 		id = 9,
@@ -77,12 +78,12 @@ L.styles = {
 	},
 	["NUMBER"] = {
 		id = 11,
-		fgColor = rgb(0x0000C0),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPERATOR"] = {
 		id = 12,
-		fgColor = rgb(0xA00000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["CHARACTER"] = {
@@ -102,37 +103,37 @@ L.styles = {
 	},
 	["STRING"] = {
 		id = 16,
-		fgColor = rgb(0x3898B2),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING ESCAPE"] = {
 		id = 17,
-		fgColor = rgb(0xFF8040),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING ESCAPE ERROR"] = {
 		id = 18,
-		fgColor = rgb(0xFF0000),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING EOL OPEN"] = {
 		id = 19,
-		fgColor = rgb(0xFFFFFF),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFF4040),
 	},
 	["STRING VERBATIM"] = {
 		id = 20,
-		fgColor = rgb(0x8064A2),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING VERBATIM SPECIAL"] = {
 		id = 21,
-		fgColor = rgb(0x800040),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING VERBATIM EOL"] = {
 		id = 22,
-		fgColor = rgb(0xFFFFFF),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFF8000),
 	},
 }

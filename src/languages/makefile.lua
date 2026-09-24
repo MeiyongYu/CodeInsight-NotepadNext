@@ -25,18 +25,19 @@ L.styles = {
 	},
 	["PREPROCESSOR"] = {
 		id = 2,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x804000),
 		bgColor = rgb(0xC0C0C0),
 		fontStyle = 1,
 	},
 	["IDENTIFIER"] = {
 		id = 3,
-		fgColor = rgb(0x0000FF),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
+		fontStyle = 1,
 	},
 	["OPERATOR"] = {
 		id = 4,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},

@@ -134,7 +134,7 @@ L.styles = {
 	},
 	["COMMENT"] = {
 		id = 22,
-		fgColor = rgb(0x777777),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPTION"] = {
@@ -144,7 +144,7 @@ L.styles = {
 	},
 	["PREPROC"] = {
 		id = 24,
-		fgColor = rgb(0x848B00),
+		fgColor = rgb(0x804000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["POSTPROC"] = {

@@ -37,7 +37,7 @@ L.styles = {
 	},
 	["COMMENT"] = {
 		id = 4,
-		fgColor = rgb(0x00AA00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["TAG CLOSING"] = {
@@ -53,7 +53,7 @@ L.styles = {
 	},
 	["COMMENT BLOCK"] = {
 		id = 7,
-		fgColor = rgb(0x00AA00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["VERBATIM SEGMENT"] = {
@@ -69,7 +69,7 @@ L.styles = {
 	},
 	["SPECIAL CHAR"] = {
 		id = 10,
-		fgColor = rgb(0xAAAA00),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["COMMAND OPTIONAL ARGUMENT"] = {

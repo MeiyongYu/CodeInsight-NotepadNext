@@ -40,13 +40,13 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 5,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["IDENTIFIER"] = {
 		id = 6,
-		fgColor = rgb(0x8080C0),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},

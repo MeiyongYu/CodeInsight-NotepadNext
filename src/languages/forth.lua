@@ -25,17 +25,17 @@ L.styles = {
 	},
 	["COMMENT"] = {
 		id = 1,
-		fgColor = rgb(0x009933),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["ML COMMENT"] = {
 		id = 2,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["IDENTIFIER"] = {
 		id = 3,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x000080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -47,7 +47,7 @@ L.styles = {
 	},
 	["KEYWORDS"] = {
 		id = 5,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -71,12 +71,12 @@ L.styles = {
 	},
 	["NUMBER"] = {
 		id = 9,
-		fgColor = rgb(0x007F7F),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["DOUBLE QUOTED STRING"] = {
 		id = 10,
-		fgColor = rgb(0xCC3300),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["LOCALE"] = {

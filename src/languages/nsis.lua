@@ -29,17 +29,17 @@ L.styles = {
 	},
 	["STRING DOUBLE QUOTE"] = {
 		id = 2,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xEEEEEE),
 	},
 	["STRING LEFT QUOTE"] = {
 		id = 3,
-		fgColor = rgb(0x000080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xC0C0C0),
 	},
 	["STRING RIGHT QUOTE"] = {
 		id = 4,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xC0C0C0),
 	},
 	["FUNCTION"] = {
@@ -88,7 +88,7 @@ L.styles = {
 	},
 	["STRING VAR"] = {
 		id = 13,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xEFEFEF),
 	},
 	["NUMBER"] = {

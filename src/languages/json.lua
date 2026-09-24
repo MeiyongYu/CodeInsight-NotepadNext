@@ -28,7 +28,7 @@ L.styles = {
 	},
 	["NUMBER"] = {
 		id = 1,
-		fgColor = rgb(0xFF8000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
@@ -38,7 +38,7 @@ L.styles = {
 	},
 	["STRINGEOL"] = {
 		id = 3,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["PROPERTYNAME"] = {
@@ -64,7 +64,7 @@ L.styles = {
 	},
 	["OPERATOR"] = {
 		id = 8,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["URI"] = {
@@ -80,13 +80,13 @@ L.styles = {
 	},
 	["KEYWORD"] = {
 		id = 11,
-		fgColor = rgb(0x18AF8A),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["LDKEYWORD"] = {
 		id = 12,
-		fgColor = rgb(0xFF0000),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["ERROR"] = {

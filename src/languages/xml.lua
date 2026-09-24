@@ -70,13 +70,13 @@ L.styles = {
 	},
 	["DOUBLESTRING"] = {
 		id = 6,
-		fgColor = rgb(0x8000FF),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
 	["SINGLESTRING"] = {
 		id = 7,
-		fgColor = rgb(0x8000FF),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},

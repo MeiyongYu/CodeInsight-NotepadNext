@@ -27,18 +27,18 @@ L.styles = {
 	},
 	["STRING D"] = {
 		id = 2,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING L"] = {
 		id = 3,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 2,
 	},
 	["STRING R"] = {
 		id = 4,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 4,
 	},
@@ -90,13 +90,13 @@ L.styles = {
 	},
 	["STRING VARIABLE"] = {
 		id = 13,
-		fgColor = rgb(0x808080),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFEFCF5),
 		fontStyle = 1,
 	},
 	["NUMBER"] = {
 		id = 14,
-		fgColor = rgb(0x804040),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},

@@ -24,7 +24,7 @@ L.styles = {
 	},
 	["COMMENT"] = {
 		id = 1,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["VALUE NAME"] = {
@@ -34,12 +34,12 @@ L.styles = {
 	},
 	["STRING"] = {
 		id = 3,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["HEX DIGIT"] = {
 		id = 4,
-		fgColor = rgb(0x7F0B0C),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["VALUE TYPE"] = {
@@ -60,7 +60,7 @@ L.styles = {
 	},
 	["ESCAPED CHARACTERS IN STRINGS"] = {
 		id = 8,
-		fgColor = rgb(0x7D8187),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -71,7 +71,7 @@ L.styles = {
 	},
 	["GUID IN STRING"] = {
 		id = 10,
-		fgColor = rgb(0x7B5F15),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["PARAMETER"] = {
@@ -81,7 +81,7 @@ L.styles = {
 	},
 	["OPERATORS"] = {
 		id = 12,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},

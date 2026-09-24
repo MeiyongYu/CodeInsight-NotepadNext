@@ -22,7 +22,7 @@ L.styles = {
 	},
 	["COMMENT"] = {
 		id = 1,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["LABEL"] = {
@@ -63,7 +63,7 @@ L.styles = {
 	},
 	["NUMBER"] = {
 		id = 9,
-		fgColor = rgb(0x007F7F),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["REFERENCE (TO A LABEL)"] = {
@@ -73,12 +73,12 @@ L.styles = {
 	},
 	["CHAR"] = {
 		id = 11,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["STRING"] = {
 		id = 12,
-		fgColor = rgb(0x7F007F),
+		fgColor = rgb(0x800000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["REGISTER"] = {
@@ -88,12 +88,12 @@ L.styles = {
 	},
 	["HEXADECIMAL NUMBER"] = {
 		id = 14,
-		fgColor = rgb(0x7F0000),
+		fgColor = rgb(0xFF0000),
 		bgColor = rgb(0xFFFFFF),
 	},
 	["OPERATOR"] = {
 		id = 15,
-		fgColor = rgb(0x000000),
+		fgColor = rgb(0x800080),
 		bgColor = rgb(0xFFFFFF),
 		fontStyle = 1,
 	},
@@ -104,7 +104,7 @@ L.styles = {
 	},
 	["COMMENT OTHERWISE"] = {
 		id = 17,
-		fgColor = rgb(0x007F00),
+		fgColor = rgb(0x008000),
 		bgColor = rgb(0xFFFFFF),
 	},
 }
